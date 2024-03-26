@@ -8,6 +8,7 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import { useEffect, useState } from "react";
 import LoadingScreen from "./components/loading-screen";
+import { auth } from "./firebase";
 
 //router setting, 라우터를 layout + outlet으로 render하고 새로운 페이지로 이동하기 위한 세팅
 const router = createBrowserRouter([
@@ -51,6 +52,7 @@ const GlobalStyles = createGlobalStyle`
 function App() {
   const[isLoading, setLoading] = useState(true);//set state to check loading, 파이어 베이스가 유저 채크를 위한 로딩화면 셋 스테이트
   const init = async() =>{
+    await auth.authStateReady();
     //wait fot firebase, 파이어베이스 유저 확인 작업 기다리기
     setLoading(false);
   }
