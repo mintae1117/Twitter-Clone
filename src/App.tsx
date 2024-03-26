@@ -4,11 +4,17 @@ import Home from "./routes/home";
 import Profile from "./routes/profile";
 import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import { useEffect, useState } from "react";
 import LoadingScreen from "./components/loading-screen";
 import { auth } from "./firebase";
+
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`;
 
 //router setting, 라우터를 layout + outlet으로 render하고 새로운 페이지로 이동하기 위한 세팅
 const router = createBrowserRouter([
@@ -59,10 +65,10 @@ function App() {
   useEffect(() => {init()}, []);
 
   return (
-    <>
+    <Wrapper>
       <GlobalStyles />
       {isLoading ? <LoadingScreen /> : <RouterProvider router={router}/>}
-    </>
+    </Wrapper>
   );
 }
 
