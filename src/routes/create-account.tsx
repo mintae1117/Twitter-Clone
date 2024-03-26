@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 42px;
+    font-size: 48px;
 `;
 
 const Form = styled.form`
@@ -28,11 +28,18 @@ const Form = styled.form`
 
 const Input = styled.input`
     padding: 10px 20px;
-    border-radius: 50px;
+    border-radius: 5px;
     border: none;
     width: 100%;
     font-size: 16px;
+    min-width: 400px;
     &[type="submit"] {
+        width: auto;
+        margin: 0 auto;
+        margin-top: 10px;
+        border-radius: 50px;
+        background-color: silver;
+        min-width: 100px;
         cursor: pointer;
         &:hover {
         opacity: 0.8;
@@ -80,9 +87,9 @@ export default function CreateAccount() {
                 displayName: name,
             });
             navigate("/");
-            // create an account
+            // create an account.
             // set the name of the user.
-            // redirect to the home page
+            // redirect to the home page.
         } catch (e) {
         // setError
         } finally {
@@ -91,7 +98,8 @@ export default function CreateAccount() {
     };
     return (
         <Wrapper>
-            <Title>Join 𝕏</Title>
+            <Title>𝕏</Title>
+            <Title>Create account</Title>
             <Form onSubmit={onSubmit}>
                 <Input
                     onChange={onChange}
