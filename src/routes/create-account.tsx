@@ -32,14 +32,14 @@ const Input = styled.input`
     border: none;
     width: 100%;
     font-size: 16px;
-    min-width: 400px;
+    min-width: 200px;
     &[type="submit"] {
         width: auto;
         margin: 0 auto;
         margin-top: 10px;
         border-radius: 50px;
         background-color: silver;
-        min-width: 100px;
+        min-width: 150px;
         cursor: pointer;
         &:hover {
         opacity: 0.8;
@@ -87,15 +87,15 @@ export default function CreateAccount() {
                 displayName: name,
             });
             navigate("/");
-            // create an account.
-            // set the name of the user.
-            // redirect to the home page.
         } catch (e) {
         // setError
         } finally {
         setLoading(false);
         }
     };
+    // create an account.
+    // set the name of the user.
+    // redirect to the home page.
     return (
         <Wrapper>
             <Title>𝕏</Title>
