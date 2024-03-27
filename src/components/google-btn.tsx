@@ -20,27 +20,28 @@ const Button = styled.span`
   &:hover {
     opacity: 0.8;
   }
-`;
+`;// github-btn 과 살짝 다름 -> 새로운 tsx 파일 만들기
 
 const Logo = styled.img`
   height: 25px;
 `;
 
 export default function GoogleBtn() {
-  const navigate = useNavigate();
-  const onClick = async () => {
+    const navigate = useNavigate();
+    const onClick = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate("/");
+        const provider = new GoogleAuthProvider();// GoogleAuthProvider 이용하여 간단하게 구글 로그인 추가
+        await signInWithPopup(auth, provider);// 팝업창으로 로그인 진행
+        navigate("/");
     } catch (error) {
-      console.error(error);
+        console.error(error);
     }
-  };
-  return (
+    };
+
+    return (
     <Button onClick={onClick}>
-      <Logo src="/Googlelogo.svg" />
-      Continue with Google
+        <Logo src="/Googlelogo.svg" />
+        Continue with Google
     </Button>
-  );
+    );
 }

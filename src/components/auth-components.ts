@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 
+// styled components of auth related pages.
 export const Wrapper = styled.div`
   height: 100%;
   display: flex;

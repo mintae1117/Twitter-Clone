@@ -4,7 +4,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
 const Button = styled.span`
-  margin-top: 40px;
+  margin-top: 40px;// 위 쫌더 띄우기
   background-color: white;
   font-weight: 500;
   width: 100%;
@@ -30,7 +30,7 @@ export default function GithubButton() {
   const navigate = useNavigate();
   const onClick = async () => {
     try {
-      const provider = new GithubAuthProvider();
+      const provider = new GithubAuthProvider();// GithubAuthProvider 이용하여 간편하게 깃헙 로그인 추가.
       await signInWithPopup(auth, provider);
       navigate("/");
     } catch (error) {

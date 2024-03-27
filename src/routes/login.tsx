@@ -17,37 +17,38 @@ import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
 
 export default function CreateAccount() {
-  const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const navigate = useNavigate();
+    const [isLoading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { name, value },
+        target: { name, value },
     } = e;
     if (name === "email") {
-      setEmail(value);
+        setEmail(value);
     } else if (name === "password") {
-      setPassword(value);
+        setPassword(value);
     }
-  };
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    };// 아이디(이메일), 비번 입력받기
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     if (isLoading || email === "" || password === "") return;
     try {
-      setLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+        setLoading(true);
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/");
     } catch (e) {
-      if (e instanceof FirebaseError) {
+        if (e instanceof FirebaseError) {
         setError(e.message);
-      }
+        }
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+    };// firebase signInWithEmailAndPassword 이용하여 사용자 로그인 시키기, loading setting 해주기.
 
     const onClick = async () => {
     await sendPasswordResetEmail(auth, email)
@@ -63,9 +64,9 @@ export default function CreateAccount() {
         alert(errorMessage);
         // ..
     });
-    };
+    };// 비밀번호 틀리거나 이미 생성된 이메일의 계정에서 표시, 클릭하면 password reset email 보내기.
 
-  return (
+    return (
     <Wrapper>
         <Xtitle>𝕏</Xtitle>
         <Title>Log in</Title>
@@ -100,5 +101,5 @@ export default function CreateAccount() {
         <GithubButton />
         <GoogleBtn />
     </Wrapper>
-  );
+    );
 }
