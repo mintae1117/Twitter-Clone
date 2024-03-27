@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 420px;
-  padding: 50px 0px;
+  padding: 150px 0px;
 `;
 
 export const Title = styled.h1`
@@ -36,7 +36,7 @@ min-width: 200px;
     background-color: #1C9BEF;
     cursor: pointer;
     &:hover {
-    opacity: 0.7;
+    opacity: 0.8;
     }
 }
 `;
