@@ -9,8 +9,13 @@ export const Wrapper = styled.div`
   padding: 150px 0px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   font-size: 42px;
+`;
+
+export const Xtitle = styled.h1`
+  font-size: 100px;
+  padding: 0 0 10px 0;
 `;
 
 export const Form = styled.form`
@@ -50,5 +55,17 @@ export const Switcher = styled.span`
   margin-top: 20px;
   a {
     color: #1d9bf0;
+    &:hover {
+    opacity: 0.8;
+    }
   }
+`;
+
+export const Forgotpassword = styled.p`
+    color: #1d9bf0;
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+    opacity: 0.8;
+    }
 `;

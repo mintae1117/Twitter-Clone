@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import React, { useState } from "react";
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
@@ -9,7 +9,9 @@ import {
   Input,
   Switcher,
   Title,
+  Xtitle,
   Wrapper,
+  Forgotpassword,
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
@@ -62,9 +64,24 @@ export default function CreateAccount() {
     // create an account.
     // set the name of the user.
     // redirect to the home page.
+    const onClick = async () => {
+        await sendPasswordResetEmail(auth, email)
+        .then(() => {
+            // Password reset email sent!
+            alert("Password reset email sent!");
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+            alert(errorMessage);
+            // ..
+        });
+    };
     return (
         <Wrapper>
-            <Title>𝕏</Title>
+            <Xtitle>𝕏</Xtitle>
             <Title>Create account</Title>
             <Form onSubmit={onSubmit}>
                 <Input
@@ -97,6 +114,10 @@ export default function CreateAccount() {
                 />
             </Form>
             {error !== "" ? <Error>{error}</Error> : null}
+            {error !== "" ? <Switcher>
+            Forgot your email login password?
+            <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
+            </Switcher> : null}
             <Switcher>
                 Already have an account? <Link to="/login">Log in &rarr;</Link>
             </Switcher>

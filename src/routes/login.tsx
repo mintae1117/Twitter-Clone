@@ -2,14 +2,16 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import {
   Error,
   Form,
   Input,
   Switcher,
   Title,
+  Xtitle,
   Wrapper,
+  Forgotpassword,
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
@@ -46,9 +48,26 @@ export default function CreateAccount() {
       setLoading(false);
     }
   };
+
+    const onClick = async () => {
+    await sendPasswordResetEmail(auth, email)
+    .then(() => {
+        // Password reset email sent!
+        alert("Password reset email sent!");
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+        alert(errorMessage);
+        // ..
+    });
+    };
+
   return (
     <Wrapper>
-        <Title>𝕏</Title>
+        <Xtitle>𝕏</Xtitle>
         <Title>Log in</Title>
         <Form onSubmit={onSubmit}>
         <Input
@@ -70,9 +89,13 @@ export default function CreateAccount() {
         <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
         </Form>
         {error !== "" ? <Error>{error}</Error> : null}
+        {error !== "" ? <Switcher>
+            Forgot your email login password?
+            <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
+        </Switcher> : null}
         <Switcher>
         Don't have an account?{" "}
-        <Link to="/create-account">Create one &rarr;</Link>
+        <Link to="/create-account">Create account &rarr;</Link>
         </Switcher>
         <GithubButton />
         <GoogleBtn />
