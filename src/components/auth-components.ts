@@ -42,7 +42,8 @@ min-width: 200px;
     background-color: #1C9BEF;
     cursor: pointer;
     &:hover {
-    opacity: 0.8;
+        transition-duration: 0.3s;
+        opacity: 0.8;
     }
 }
 `;
@@ -57,7 +58,8 @@ export const Switcher = styled.span`
   a {
     color: #1d9bf0;
     &:hover {
-    opacity: 0.8;
+        transition-duration: 0.3s;
+        opacity: 0.8;
     }
   }
 `;
@@ -67,6 +69,7 @@ export const Forgotpassword = styled.p`
     text-decoration: underline;
     cursor: pointer;
     &:hover {
-    opacity: 0.8;
+        transition-duration: 0.3s;
+        opacity: 0.8;
     }
 `;

@@ -18,9 +18,10 @@ const Button = styled.span`
   justify-content: center;
   cursor: pointer;
   &:hover {
+    transition-duration: 0.3s;
     opacity: 0.8;
   }
-`;// github-btn 과 살짝 다름 -> 새로운 tsx 파일 만들기
+`;// github-btn 과 살짝 다름
 
 const Logo = styled.img`
   height: 25px;
@@ -35,6 +36,7 @@ export default function GoogleBtn() {
         navigate("/");
     } catch (error) {
         console.error(error);
+        alert(error);// error 발생시 alert 문구 표시.
     }
     };
 

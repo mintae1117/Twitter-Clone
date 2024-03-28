@@ -18,6 +18,7 @@ const Button = styled.span`
   justify-content: center;
   cursor: pointer;
   &:hover {
+    transition-duration: 0.3s;
     opacity: 0.8;
   }
 `;
@@ -31,10 +32,11 @@ export default function GithubButton() {
   const onClick = async () => {
     try {
       const provider = new GithubAuthProvider();// GithubAuthProvider 이용하여 간편하게 깃헙 로그인 추가.
-      await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);// 팝업창으로 로그인 진행
       navigate("/");
     } catch (error) {
       console.error(error);
+      alert(error);// error 발생시 alert 문구 표시.
     }
   };
   return (
