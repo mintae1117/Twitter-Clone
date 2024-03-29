@@ -12,5 +12,5 @@ const Text = styled.span`
 `;
 // 간단한 로딩 화면 구현
 export default function LoadingScreen(){
-    return <Wrapper><Text>Loading...</Text></Wrapper>;
+    return <Wrapper><Text>Loading 𝕏...</Text></Wrapper>;
 }

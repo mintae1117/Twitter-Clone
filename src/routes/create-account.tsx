@@ -79,7 +79,7 @@ export default function CreateAccount() {
             // error 메세지 alert
         });
     };// 비밀번호 틀리거나 이미 생성된 이메일의 계정에서 표시, 클릭하면 password reset email 보내기.
-    
+
     return (
         <Wrapper>
             <Xtitle>𝕏</Xtitle>
@@ -118,7 +118,7 @@ export default function CreateAccount() {
             {error !== "" ? <Switcher>
             Forgot your email login password?
             <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
-            </Switcher> : null}
+            </Switcher> : null/*이메일 비번 입력 시 error 발생 하면 문구 띄우기*/}
             <Switcher>
                 Already have an account? <Link to="/login">Log in &rarr;</Link>
             </Switcher>

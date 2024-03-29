@@ -93,7 +93,7 @@ export default function CreateAccount() {
         {error !== "" ? <Switcher>
             Forgot your email login password?
             <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
-        </Switcher> : null}
+        </Switcher> : null/*이메일 비번 입력 시 error 발생 하면 문구 띄우기*/}
         <Switcher>
         Don't have an account?{" "}
         <Link to="/create-account">Create account &rarr;</Link>
