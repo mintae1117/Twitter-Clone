@@ -22,8 +22,8 @@ const Leftbar = styled.div`
     @media (max-width: 1260px) {
         align-items: end;
         gap: 0.1%;
-    }
-`;
+    }// mobile ver left bar css
+`;// original left bar css
 
 const Rightbar = styled.div`
     display: flex;
@@ -42,12 +42,13 @@ const Homelogo = styled.div`
     font-size: 40px;
     text-align: center;
     padding-top: 7px;
+    margin-right: 5px;
     cursor: pointer;
     &:hover {
         background-color: #1d1d1d;
         transition-duration: 0.3s;
     }
-`;
+`;// original home logo css
 
 const MenuItem = styled.div`
     background-color: transparent;
@@ -64,17 +65,17 @@ const MenuItem = styled.div`
     @media (max-width: 1260px) {
         font-size: 0px;
         padding-right: 0px;
-    }
+    }// mobile ver css
     &:hover {
         background-color: #1d1d1d;
         transition-duration: 0.2s;
     }
-    svg {
+    svg {// bar items svg css
     width: 30px;
     margin-left: 15px;
     margin-right: 15px;
     }
-    &.log-out {
+    &.log-out {// original log out btn css
         margin-top: 20px;
         width: 90%;
         font-size: 18px;
@@ -85,7 +86,7 @@ const MenuItem = styled.div`
             font-size: 0px;
             margin-right: 10px;
             margin-top: 10px;
-        }
+        }// mobile ver css
         svg {
             margin-right: 5px;
         }
@@ -93,7 +94,7 @@ const MenuItem = styled.div`
             opacity: 80%;
         }
     }
-`;
+`;// original menu items css
 
 export default function Layout() {
     const navigate = useNavigate();
