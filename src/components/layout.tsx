@@ -16,9 +16,13 @@ const Leftbar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding-left: 10px;
-    gap: 7px;
+    padding-left: 20px;
+    gap: 0.7%;
     border: 1px solid white;
+    @media (max-width: 1260px) {
+        align-items: end;
+        gap: 0.1%;
+    }
 `;
 
 const Rightbar = styled.div`
@@ -57,6 +61,10 @@ const MenuItem = styled.div`
     font-size: 21px;
     padding-right: 20px;
     cursor: pointer;
+    @media (max-width: 1260px) {
+        font-size: 0px;
+        padding-right: 0px;
+    }
     &:hover {
         background-color: #1d1d1d;
         transition-duration: 0.2s;
@@ -67,10 +75,23 @@ const MenuItem = styled.div`
     margin-right: 15px;
     }
     &.log-out {
-    border-color: tomato;
-    svg {
-        fill: tomato;
-    }
+        margin-top: 20px;
+        width: 90%;
+        font-size: 18px;
+        font-weight: 600;
+        background-color: #1C9BEF;
+        @media (max-width: 1260px) {
+            width: 50px;
+            font-size: 0px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        svg {
+            margin-right: 5px;
+        }
+        &:hover{
+            opacity: 80%;
+        }
     }
 `;
 
@@ -157,6 +178,14 @@ export default function Layout() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                 </svg>
                 Profile
+                </MenuItem>
+            </Link>
+            <Link to="/" style={{textDecoration: "none"}}>
+                <MenuItem>
+                <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                More
                 </MenuItem>
             </Link>
             <MenuItem onClick={onLogOut} className="log-out">
