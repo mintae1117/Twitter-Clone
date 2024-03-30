@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/layout";
 import Home from "./routes/home";
 import Profile from "./routes/profile";
+import Notready from "./routes/notready"
 import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
 import styled, { createGlobalStyle } from "styled-components";
@@ -10,7 +11,12 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "./components/loading-screen";
 import { auth } from "./firebase";
 import ProtectedRoute from "./components/protected-route";
-
+import Explore from "./routes/explore";
+import Notification from "./routes/notifications";
+import Message from "./routes/messages";
+import Lists from "./routes/lists";
+import Bookmark from "./routes/bookmarks";
+import Community from "./routes/communities"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -36,6 +42,34 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
+      {
+        path: "explore",
+        element: <Explore />,
+      },
+      {
+        path: "notifications",
+        element: <Notification />,
+      },
+      {
+        path: "messages",
+        element: <Message />,
+      },
+      {
+        path: "lists",
+        element: <Lists />,
+      },
+      {
+        path: "bookmarks",
+        element: <Bookmark />,
+      },
+      {
+        path: "communities",
+        element: <Community />,
+      },
+      {
+        path: "notready",
+        element: <Notready />,
+      }
     ],
   },
   {
