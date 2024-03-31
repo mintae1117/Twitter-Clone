@@ -4,7 +4,6 @@ import { auth } from "../firebase";
 
 const Wrapper = styled.div`
     display: grid;
-    gap: 20px;
     grid-template-columns: 3fr 6fr 4fr;
     height: 100%;
     width: 100%;
@@ -59,7 +58,7 @@ const MenuItem = styled.button`
     &.active{
         font-weight: 1000;
         svg{
-            fill: #d1d1d1;
+            fill: #acacac;
         }
     }// navbar active css
     border-color: transparent;
@@ -109,6 +108,17 @@ const MenuItem = styled.button`
     }
 `;// original menu items css
 
+const Circle = styled.div`
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: #1C9BEF;
+    margin-right: 55px;
+    margin-bottom: 22px;
+`;
+
 export default function Layout() {
     const homeMatch = useMatch("/");
     const exploreMatch = useMatch("/explore");
@@ -118,7 +128,6 @@ export default function Layout() {
     const bookmarkMatch = useMatch("/bookmarks");
     const commuMatch = useMatch("/communities");
     const profileMatch = useMatch("/profile");
-    const notreadyMatch = useMatch("/notready");
     //usematch 를 이용하여 navbar active / not active 정해주기
     const navigate = useNavigate();
     const onLogOut = async () => {
@@ -136,6 +145,7 @@ export default function Layout() {
             </Link>
             <Link to="/" style={{textDecoration: "none"}}>
                 <MenuItem className={homeMatch !== null ? "active" : ""}>
+                <Circle/>
                 <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                 </svg>
