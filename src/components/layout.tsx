@@ -28,6 +28,10 @@ const Rightbar = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    border: 1px solid white;
+    @media (max-width: 1000px){
+        display: none;
+    }
 `;
 
 const Homelogo = styled.div`
