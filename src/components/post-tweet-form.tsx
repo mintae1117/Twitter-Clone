@@ -1,5 +1,7 @@
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { styled } from "styled-components";
+import { auth, db } from "../firebase";
 
 const Form = styled.form`
     display: flex;
@@ -23,16 +25,21 @@ const TextArea = styled.textarea`
     }
     &:focus {
     outline: none;
-    border-color: #1d9bf0;
+    border-color: #1C9BEF;
     }
+`;
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
 `;
 
 const AttachFileButton = styled.label`
     padding: 10px 0px;
-    color: #1d9bf0;
+    color: #1C9BEF;
     text-align: center;
     border-radius: 20px;
-    border: 1px solid #1d9bf0;
+    border: 1px solid #1C9BEF;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -44,6 +51,7 @@ const AttachFileInput = styled.input`
 
 const SubmitBtn = styled.input`
     background-color: #1d9bf0;
+    width: 100px;
     color: white;
     border: none;
     padding: 10px 0px;
@@ -68,29 +76,51 @@ export default function PostTweetForm() {
     if (files && files.length === 1) {
         setFile(files[0]);
     }
-    };
+    };// tweet form submit
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const user = auth.currentUser;
+        if (!user || isLoading || tweet === "" || tweet.length > 180) return;
+        try {
+            setLoading(true);
+            await addDoc(collection(db, "tweets"), {
+            tweet,
+            createdAt: Date.now(),
+            username: user.displayName || "Anonymous",
+            userId: user.uid,
+            });
+        } catch (e) {
+            alert(e);
+        } finally {
+            setLoading(false);
+        }
+    };// database set
+
     return (
-    <Form>
-        <TextArea
-            rows={5}
-            maxLength={180}
-            onChange={onChange}
-            value={tweet}
-            placeholder="What is happening?!"
-        />
-        <AttachFileButton htmlFor="file">
-        {file ? "Photo added ✅" : "Add photo"}
-        </AttachFileButton>
-        <AttachFileInput
-            onChange={onFileChange}
-            type="file"
-            id="file"
-            accept="image/*"
-        />
-        <SubmitBtn
-            type="submit"
-            value={isLoading ? "Posting..." : "Post Tweet"}
-        />
-    </Form>
+        <Form onSubmit={onSubmit}>
+            <TextArea
+                rows={5}
+                maxLength={180}
+                onChange={onChange}
+                value={tweet}
+                placeholder="What is happening?!"
+            />
+            <ButtonWrapper>
+                <AttachFileButton htmlFor="file">
+                {file ? "Photo added ✅" : "Add photo"}
+                </AttachFileButton>
+                <AttachFileInput
+                    onChange={onFileChange}
+                    type="file"
+                    id="file"
+                    accept="image/*"
+                />
+                <SubmitBtn
+                    type="submit"
+                    value={isLoading ? "Posting..." : "Post"}
+                />
+            </ButtonWrapper>
+        </Form>
     );
 }

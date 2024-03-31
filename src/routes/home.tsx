@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import PostTweetForm from "../components/post-tweet-form";
+import { useState } from "react";
 
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 600px;
-    border: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
 `;
 
 const Header = styled.div`
@@ -18,14 +20,16 @@ const Header = styled.div`
 
 const HeaderBtn = styled.button`
     &.active{
+        font-weight: 700;
         text-decoration: underline;
-        text-underline-offset: 15px;
-        text-decoration-thickness: 5px;
+        text-underline-offset: 16px;
+        text-decoration-thickness: 4px;
         text-decoration-color: #1C9BEF;
         color: white;
     }
+    cursor: pointer;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 300;
     width: 300px;
     color: gray;
     border-color: transparent;
@@ -36,13 +40,24 @@ const HeaderBtn = styled.button`
 `;
 
 export default function Home(){
+    const [onwhatPage, setonwhatPage] = useState("foryou");
+    const foryouClicked = () => {
+        if(onwhatPage === "following"){
+            setonwhatPage("foryou");
+        }
+    }
+    const followingClicked = () => {
+        if(onwhatPage === "foryou"){
+            setonwhatPage("following");
+        }
+    }// click 된 header 의 onwhatpage state 에 따라 headerbtn active 속성 주기
     return (
         <Wrapper>
             <Header>
-                <HeaderBtn className="active">For you</HeaderBtn>
-                <HeaderBtn>Following</HeaderBtn>
+                <HeaderBtn onClick={foryouClicked} className={onwhatPage === "foryou" ? "active" : ""}>For you</HeaderBtn>
+                <HeaderBtn onClick={followingClicked} className={onwhatPage === "following" ? "active" : ""}>Following</HeaderBtn>
             </Header>
-            <PostTweetForm />
+            {onwhatPage === "foryou" ?  <PostTweetForm /> : <h2>following</h2>}
         </Wrapper>
     );
 }

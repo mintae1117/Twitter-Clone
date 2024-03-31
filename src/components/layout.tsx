@@ -8,7 +8,6 @@ const Wrapper = styled.div`
     height: 100%;
     width: 100%;
     max-width: 1300px;
-    border: 1px solid red;
 `;
 
 const Leftbar = styled.div`
@@ -17,7 +16,6 @@ const Leftbar = styled.div`
     align-items: start;
     padding-left: 10px;
     gap: 0.7%;
-    border: 1px solid white;
     @media (max-width: 1260px) {
         align-items: end;
         gap: 0.1%;
@@ -30,7 +28,6 @@ const Rightbar = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border: 1px solid white;
 `;
 
 const Homelogo = styled.div`
@@ -109,6 +106,7 @@ const MenuItem = styled.button`
 `;// original menu items css
 
 const Circle = styled.div`
+    z-index: 1;
     position: absolute;
     width: 7px;
     height: 7px;
@@ -117,6 +115,9 @@ const Circle = styled.div`
     background-color: #1C9BEF;
     margin-right: 55px;
     margin-bottom: 22px;
+    @media (max-width: 1260px) {
+        margin-right: -15px;
+    }// mobile ver css
 `;
 
 export default function Layout() {
