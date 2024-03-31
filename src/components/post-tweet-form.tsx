@@ -1,14 +1,16 @@
 import { addDoc, collection } from "firebase/firestore";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { auth, db } from "../firebase";
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
 
 
 const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-left: 20px;
+    margin-right: 20px;// 왼쪽 오른쪽 공백
 `;
 
 const TextArea = styled.textarea`
@@ -43,6 +45,9 @@ const AttachFileButton = styled.label`
     cursor: pointer;
     svg{
         width: 20px;
+        &:hover{
+            opacity: 0.7;
+        }
     }
 `;
 
@@ -51,13 +56,16 @@ const AttachFileInput = styled.input`
 `;
 
 const SubmitBtn = styled.input`
+    margin-left: auto;
     background-color: #1d9bf0;
-    width: 100px;
+    width: 70px;
+    height: 40px;
     color: white;
     border: none;
     padding: 10px 0px;
-    border-radius: 20px;
+    border-radius: 50px;
     font-size: 16px;
+    float: right;
     cursor: pointer;
     &:hover,
     &:active {
