@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import { auth, db } from "../firebase";
 import EmojiPicker from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
 
-
 const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -116,7 +115,7 @@ export default function PostTweetForm() {
 
     const emojiClicked = () => {
         setEmoji(!emo);
-    }// set emoji displayer clicked.
+    };// set emoji displayer clicked.
 
     const onEmojiClick = (event: any) => {
         setTweet((prevInput) => prevInput + event.emoji);

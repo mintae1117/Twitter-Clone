@@ -15,8 +15,13 @@ export const Title = styled.h2`
 `;
 
 export const Xtitle = styled.h1`
-  font-size: 100px;
-  padding: 0 0 10px 0;
+  font-size: 500px;
+  padding: 180px 320px 0 0;
+  @media (max-width: 1150px){
+    font-size: 100px;
+    padding: 0px;
+    margin-bottom: -100px;
+  }
 `;
 
 export const Form = styled.form`

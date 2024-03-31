@@ -8,13 +8,26 @@ import {
   Form,
   Input,
   Switcher,
-  Title,
   Xtitle,
   Wrapper,
   Forgotpassword,
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
+import styled from "styled-components";
+import Footer from "../components/footer";
+
+const TitleWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    @media (max-width: 1150px){
+        flex-direction: column;
+    }
+`;
+
+const Titlehappening = styled.div`
+    font-size: 80px;
+`;
 
 export default function CreateAccount() {
     const navigate = useNavigate();
@@ -67,39 +80,44 @@ export default function CreateAccount() {
     };// 비밀번호 틀리거나 이미 생성된 이메일의 계정에서 표시, 클릭하면 password reset email 보내기.
 
     return (
-    <Wrapper>
-        <Xtitle>𝕏</Xtitle>
-        <Title>Log in</Title>
-        <Form onSubmit={onSubmit}>
-        <Input
-            onChange={onChange}
-            name="email"
-            value={email}
-            placeholder="Email"
-            type="email"
-            required
-        />
-        <Input
-            onChange={onChange}
-            value={password}
-            name="password"
-            placeholder="Password"
-            type="password"
-            required
-        />
-        <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
-        </Form>
-        {error !== "" ? <Error>{error}</Error> : null}
-        {error !== "" ? <Switcher>
-            Forgot your email login password?
-            <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
-        </Switcher> : null/*이메일 비번 입력 시 error 발생 하면 문구 띄우기*/}
-        <Switcher>
-        Don't have an account?{" "}
-        <Link to="/create-account">Create account &rarr;</Link>
-        </Switcher>
-        <GithubButton />
-        <GoogleBtn />
-    </Wrapper>
+        <>
+        <TitleWrapper>
+            <Xtitle>𝕏</Xtitle>
+            <Wrapper>
+                <Titlehappening>What's happening now</Titlehappening>
+                <Form onSubmit={onSubmit}>
+                <Input
+                    onChange={onChange}
+                    name="email"
+                    value={email}
+                    placeholder="Email"
+                    type="email"
+                    required
+                />
+                <Input
+                    onChange={onChange}
+                    value={password}
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    required
+                />
+                <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
+                </Form>
+                {error !== "" ? <Error>{error}</Error> : null}
+                {error !== "" ? <Switcher>
+                    Forgot your email login password?
+                    <Forgotpassword onClick={onClick}>Send password reset email &rarr;</Forgotpassword>
+                </Switcher> : null/*이메일 비번 입력 시 error 발생 하면 문구 띄우기*/}
+                <Switcher>
+                Don't have an account?{" "}
+                <Link to="/create-account">Create account &rarr;</Link>
+                </Switcher>
+                <GithubButton />
+                <GoogleBtn />
+            </Wrapper>
+        </TitleWrapper>
+        <Footer />
+        </>
     );
 }

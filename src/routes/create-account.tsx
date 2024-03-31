@@ -9,12 +9,16 @@ import {
   Input,
   Switcher,
   Title,
-  Xtitle,
   Wrapper,
   Forgotpassword,
 } from "../components/auth-components";
 import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
+import styled from "styled-components";
+
+const TitleX = styled.h2`
+    font-size: 100px;
+`;
 
 export default function CreateAccount() {
     const navigate = useNavigate();
@@ -82,7 +86,7 @@ export default function CreateAccount() {
 
     return (
         <Wrapper>
-            <Xtitle>𝕏</Xtitle>
+            <TitleX>𝕏</TitleX>
             <Title>Create account</Title>
             <Form onSubmit={onSubmit}>
                 <Input
