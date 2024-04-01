@@ -8,11 +8,15 @@ const Myfooter = styled.h3`
     color: #5e5e5e;
     font-size: 15px;
     cursor: pointer;
-`;
+    @media (max-width: 1000px) {
+        top: 95%;
+        font-size: 12px;
+    }
+`;// footer css form
 
 const gotoYoutube = () => {
     window.open("https://www.youtube.com/");
-}
+}// link to youtube
 
 export default function Footer(){
     return(

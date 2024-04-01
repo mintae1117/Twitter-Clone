@@ -5,30 +5,43 @@ import { auth } from "../firebase";
 const Wrapper = styled.div`
     display: grid;
     grid-template-columns: 3fr 6fr 4fr;
-    height: 100%;
     width: 100%;
+    height: fit-content;// 자식의 position sticky를 위한 setting
     max-width: 1300px;
+    min-height: 950px;
+    @media (max-width: 660px) {
+        grid-template-columns: 1fr 9fr;
+    }
 `;
 
 const Leftbar = styled.div`
+    position: sticky;
+    top: 0%;
+    height: fit-content;
+    // position sticky 를 위한 css 세팅
     display: flex;
     flex-direction: column;
     align-items: start;
     padding-left: 10px;
-    gap: 0.7%;
+    gap: 7px;
     @media (max-width: 1260px) {
         align-items: end;
-        gap: 0.1%;
+        gap: 5px;
         margin: 0px;
+        padding: 0;
+        margin-right: 5px;
     }// mobile ver left bar css
 `;// original left bar css
 
 const Rightbar = styled.div`
+    position: sticky;
+    top: 0%;
+    height: fit-content;
+    // position sticky 를 위한 css 세팅
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border: 1px solid white;
     @media (max-width: 1000px){
         display: none;
     }
@@ -51,7 +64,6 @@ const Homelogo = styled.div`
     }
     @media (max-width: 1260px) {
         margin: 0px;
-        margin-right: 10px;
     }// mobile ver css
 `;// original home logo css
 
@@ -85,8 +97,13 @@ const MenuItem = styled.button`
     @media (max-width: 1260px) {
         font-size: 0px;
         margin: 0px;
+        padding: 0%;
+        width: 50px;
+        height: 50px;
+        align-items: center;
         svg{
             margin: 0px;
+            padding: 0;
         }
     }// mobile ver css
     &.log-out {// original log out btn css
@@ -104,7 +121,7 @@ const MenuItem = styled.button`
         }
         @media (max-width: 1260px) {
             font-size: 0px;
-            width: auto;
+            width: 50px;
         }// mobile ver css
     }
 `;// original menu items css
@@ -249,11 +266,11 @@ export default function Layout() {
                 </svg>
                 Log out
             </MenuItem>
-        </Leftbar>
-        <Outlet />
+        </Leftbar>{/* leftbar 끝. */}
+        <Outlet />{/* 여기에 outlet 들어옴 home,explore,profile etx... */}
         <Rightbar>
             <h2>search</h2>
-        </Rightbar>
+        </Rightbar>{/* rightbar (즉 searchbar) 끝. */}
     </Wrapper>
     );
 }

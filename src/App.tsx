@@ -24,7 +24,6 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-//router setting, 라우터를 layout + outlet으로 render하고 새로운 route로 이동하기 위한 세팅
 const router = createBrowserRouter([
   {
     path: "/",
@@ -80,9 +79,8 @@ const router = createBrowserRouter([
     path: "/create-account",
     element: <CreateAccount />,
   },
-]);
+]);// router setting, 라우터를 layout + outlet으로 render하고 새로운 route로 이동하기 위한 세팅
 
-// styled reset 을 이용한 globalstyle reset -> 개편함, 글로벌스타일 추가가능
 const GlobalStyles = createGlobalStyle`
   ${reset};
   * {
@@ -93,7 +91,7 @@ const GlobalStyles = createGlobalStyle`
     color:white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
-`;
+`;// styled reset 을 이용한 globalstyle reset -> 개편함, 글로벌스타일 추가가능
 
 function App() {
   const[isLoading, setLoading] = useState(true);// 파이어 베이스가 유저 채크를 위한 로딩화면 셋 스테이트

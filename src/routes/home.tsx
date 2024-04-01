@@ -1,20 +1,27 @@
 import styled from "styled-components";
 import PostTweetForm from "../components/post-tweet-form";
 import { useState } from "react";
+import Timeline from "../components/timeline";
 
 
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 600px;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
+    max-width: 600px;
+    border-left: 0.5px solid gray;
+    border-right: 0.5px solid gray;
+    @media (max-width: 660px) {
+        width: 100%;
+    }
 `;
 
 const Header = styled.div`
+    position: sticky;
+    top: 0px;
     height: 52px;
     display: flex;
-    border-bottom: 1px solid gray;
+    border-bottom: 0.5px solid gray;
     flex-direction: row;
 `;
 
@@ -30,14 +37,17 @@ const HeaderBtn = styled.button`
     cursor: pointer;
     font-size: 15px;
     font-weight: 300;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     color: gray;
     border-color: transparent;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
     &:hover{
         background-color: rgba(34, 34, 34, 0.8);
     }
 `;
+
+const TweetWrapper = styled.div``;
 
 export default function Home(){
     const [onwhatPage, setonwhatPage] = useState("foryou");
@@ -57,7 +67,12 @@ export default function Home(){
                 <HeaderBtn onClick={foryouClicked} className={onwhatPage === "foryou" ? "active" : ""}>For you</HeaderBtn>
                 <HeaderBtn onClick={followingClicked} className={onwhatPage === "following" ? "active" : ""}>Following</HeaderBtn>
             </Header>
-            {onwhatPage === "foryou" ?  <PostTweetForm /> : <h2>following</h2>}
+            {onwhatPage === "foryou" ? 
+            <TweetWrapper>
+                <PostTweetForm />
+                <Timeline />
+            </TweetWrapper>
+             : <h2>following</h2>}
         </Wrapper>
     );
 }
