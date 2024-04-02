@@ -117,6 +117,7 @@ export default function PostTweetForm() {
     const [emo, setEmoji] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [photourl,  setPhotourl] = useState("");
+    
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTweet(e.target.value);
     };
@@ -125,14 +126,15 @@ export default function PostTweetForm() {
         const { files } = e.target;
         const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
         if (files && files.length === 1) {
+            const newimgsrc = URL.createObjectURL(files[0]);// file url 보여주기용 가져오기.
             if(files && files[0].size > maxfilesize){
                 alert("File size is too big. maximun file size is 1mb");
                 return;
             }// filesize가 1mb 보다 크면 alert 띄우고 return.
             setFile(files[0]);
-            const newimgsrc = URL.createObjectURL(files[0]);
             setPhotourl(newimgsrc);// 고른 이미지의 url 생성해서 보여주기용으로 보냄.
         }
+        e.target.value = "";// 초기화 시켜주기! 초기화 해야만 같은파일 다시해도 읽음! re) onchage 때문에 파일이 바뀌지 않으면 읽지 못한다!! 중요!!
     };// read tweet file form onchange.
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -190,6 +192,7 @@ export default function PostTweetForm() {
         setFile(null);
         setPhotourl("");
     };// photo file, temp img url reset.
+
     return (
         <FormWrapper>
             <Form onSubmit={onSubmit}>
