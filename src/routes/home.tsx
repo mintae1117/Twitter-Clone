@@ -3,7 +3,6 @@ import PostTweetForm from "../components/post-tweet-form";
 import { useState } from "react";
 import Timeline from "../components/timeline";
 
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;

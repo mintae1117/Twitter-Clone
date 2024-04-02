@@ -2,7 +2,7 @@ import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { styled } from "styled-components";
 import { auth, db, storage } from "../firebase";
-import EmojiPicker from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const FormWrapper = styled.div`
@@ -89,7 +89,6 @@ const EmojiBox = styled.div`
 
 const Imgdiv = styled.div`
     position: relative;
-    margin-top: 10px;
     width: 70%;
 `;
 
@@ -113,7 +112,6 @@ const Imgdeletebtn = styled.button`
         background-color: rgba(158, 158, 158, 0.85);
     }
 `;
-
 
 export default function PostTweetForm() {
     const [isLoading, setLoading] = useState(false);
@@ -229,7 +227,9 @@ export default function PostTweetForm() {
                             width={300}
                             height={400}
                             skinTonesDisabled
-                            />{/* theme="dark" emojiStyle="twitter" 얘네 넣으면 왜 에러 나는건지 전혀 모르겠음... 넣어도 코드는 잘돌아감. */}
+                            emojiStyle={EmojiStyle.TWITTER}
+                            theme={Theme.DARK}// error 없이 코드 돌리는법!
+                            />
                         </EmojiBox>
                     </AttachFileButton>
                     <AttachFileButton>
