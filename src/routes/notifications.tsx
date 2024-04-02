@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
     position: sticky;
-    top: 0px;
+    top: 50px;
     height: 52px;
     display: flex;
     border-bottom: 0.5px solid gray;
@@ -45,6 +45,21 @@ const HeaderBtn = styled.button`
     }
 `;
 
+const HeaderTitle = styled.button`
+    cursor: pointer;
+    position: sticky;
+    top: 0px;
+    font-size: 20px;
+    font-weight: 300;
+    width: 100%;
+    max-width: 600px;
+    height: 50px;
+    color: white;
+    border-color: transparent;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 10;// 충분한 크기의 z index 주기 (최상단 표시).
+`;
+
 const Letterdiv = styled.div`
     padding: 120px;
     width: 100%;
@@ -72,6 +87,12 @@ const SmallLetter = styled.p`
     color: gray;
 `;
 
+const VeriImg = styled.img`
+    content: url("https://abs.twimg.com/responsive-web/client-web/verification-check-800x400.v1.52677a99.png");
+    max-width: 350px;
+    width: 100%;
+`;
+
 export default function Home(){
     const [onwhatPage, setonwhatPage] = useState("all");
     const allClicked = () => {
@@ -92,6 +113,7 @@ export default function Home(){
 
     return (
         <Wrapper>
+            <HeaderTitle>Notifications</HeaderTitle>
             <Header>
                 <HeaderBtn onClick={allClicked} className={onwhatPage === "all" ? "active" : ""}>All</HeaderBtn>
                 <HeaderBtn onClick={veriClicked} className={onwhatPage === "veri" ? "active" : ""}>Verified</HeaderBtn>
@@ -105,13 +127,14 @@ export default function Home(){
                     </Letterdiv2>
                     : (onwhatPage === "veri") ? 
                     <Letterdiv2>
+                        <VeriImg />
                         <BigLetter>Verified<br></br>Nothing to see here — yet</BigLetter>
-                        <SmallLetter>From likes to reposts and a whole lot more, this is where all the action happens.</SmallLetter>
+                        <SmallLetter>Likes, mentions, reposts, and a whole lot more — when it comes from a verified account, you’ll find it here. Learn more</SmallLetter>
                     </Letterdiv2>
                     : (onwhatPage === "mention") ? 
                     <Letterdiv2>
                         <BigLetter>Mentions<br></br>Nothing to see here — yet</BigLetter>
-                        <SmallLetter>From likes to reposts and a whole lot more, this is where all the action happens.</SmallLetter>
+                        <SmallLetter>When someone mentions you, you’ll find it here.</SmallLetter>
                     </Letterdiv2>
                     : null
                 }
