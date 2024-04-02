@@ -22,6 +22,7 @@ const TextArea = styled.textarea`
     border-bottom: 0.5px solid gray;
     padding: 10px;
     margin-top: 15px;
+    margin-bottom: -10px;
     font-size: 20px;
     color: white;
     background-color: transparent;
@@ -41,11 +42,13 @@ const TextArea = styled.textarea`
 const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    padding-bottom: 5px;
 `;
 
 const AttachFileButton = styled.label`
     padding: 10px 10px 12px 10px;
     color: #1C9BEF;
+    font-size: 15px;
     cursor: pointer;
     svg{
         width: 25px;
@@ -86,6 +89,7 @@ const EmojiBox = styled.div`
 
 const Imgdiv = styled.div`
     position: relative;
+    margin-top: 10px;
     width: 70%;
 `;
 
@@ -154,12 +158,12 @@ export default function PostTweetForm() {
                 const locationRef = ref(
                     storage,
                     `tweets/${user.uid}-${user.displayName}/${doc.id}`
-                );
-                const result = await uploadBytes(locationRef, file);
-                const url = await getDownloadURL(result.ref);
+                );// use ref
+                const result = await uploadBytes(locationRef, file);// use uploadbytes
+                const url = await getDownloadURL(result.ref);// use getdownloadurl
                 await updateDoc(doc, {
                     photo: url,
-                });
+                });// use updatedoc
             }// upload photo and set information about photo.
             setTweet("");
             setFile(null);
@@ -209,7 +213,7 @@ export default function PostTweetForm() {
                 </Imgdiv>
                 <ButtonWrapper>
                     <AttachFileButton htmlFor="file">
-                    {file ? "Photo added ✅" : 
+                    {file ? "Img added ✅" : 
                         <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
@@ -245,10 +249,7 @@ export default function PostTweetForm() {
                         id="file"
                         accept="image/*"
                     />
-                    <SubmitBtn
-                        type="submit"
-                        value={isLoading ? "Posting..." : "Post"}
-                    />
+                    <SubmitBtn type="submit" value={isLoading ? "Posting..." : "Post"} />
                 </ButtonWrapper>
             </Form>
         </FormWrapper>
