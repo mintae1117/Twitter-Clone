@@ -7,9 +7,7 @@ const Myfooter = styled.h3`
     text-align: center;
     color: #5e5e5e;
     font-size: 15px;
-    cursor: pointer;
     @media (max-width: 1000px) {
-        top: 95%;
         font-size: 12px;
     }
 `;// footer css form
@@ -18,8 +16,15 @@ const gotoYoutube = () => {
     window.open("https://www.youtube.com/");
 }// link to youtube
 
+const gotoGithub = () => {
+    window.open("https://github.com/mintae1117");
+}// link to github
+
 export default function Footer(){
     return(
-        <Myfooter onClick={gotoYoutube}>Footer 만들기 너무 너무 귀찮습니다. 정말 정말 귀찮습니다. 정신이 나갈 것 같습니다. 지금은 새벽 4시 입니다. <span style={{color:"tomato"}}>유튜브</span>나 보러 가겠습니다. 다들 행복하시길 바랍니다.</Myfooter>
+        <Myfooter>Footer 만들기 너무 너무 귀찮습니다.
+        <span onClick={gotoYoutube} style={{color:"tomato", cursor: "pointer"}}>유튜브</span>나 보러 갑시다.
+        This site has nothing to do with twitter, it's just a clone codding site.
+        @copyright <span onClick={gotoGithub} style={{color:"white", cursor: "pointer"}}>mintaekim</span> all rights reserved.</Myfooter>
     );
 }

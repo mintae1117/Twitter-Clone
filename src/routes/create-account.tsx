@@ -15,6 +15,7 @@ import {
 import GithubButton from "../components/github-btn";
 import GoogleBtn from "../components/google-btn";
 import styled from "styled-components";
+import Footer from "../components/footer";
 
 const TitleX = styled.h2`
     font-size: 100px;
@@ -85,6 +86,7 @@ export default function CreateAccount() {
     };// 비밀번호 틀리거나 이미 생성된 이메일의 계정에서 표시, 클릭하면 password reset email 보내기.
 
     return (
+        <>
         <Wrapper>
             <TitleX>𝕏</TitleX>
             <Title>Create account</Title>
@@ -129,5 +131,7 @@ export default function CreateAccount() {
             <GithubButton />
             <GoogleBtn />
         </Wrapper>
+        <Footer />
+        </>
     );
 }

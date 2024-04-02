@@ -23,6 +23,7 @@ const Header = styled.div`
     display: flex;
     border-bottom: 0.5px solid gray;
     flex-direction: row;
+    z-index: 10;// 충분한 크기의 z index 주기 (최상단 표시).
 `;
 
 const HeaderBtn = styled.button`

@@ -84,34 +84,65 @@ const EmojiBox = styled.div`
     }
 `;
 
+const Imgdiv = styled.div`
+    position: relative;
+    width: 70%;
+`;
+
+const ImgArea = styled.img`
+    width: 100%;
+    border-radius: 5px;
+`;
+
+const Imgdeletebtn = styled.button`
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 20px;
+    align-items: center;
+    background-color: rgba(66, 66, 66, 0.85);
+    color: white;
+    cursor: pointer;
+    border-color: transparent;
+    border-radius: 50%;
+    &:hover{
+        background-color: rgba(158, 158, 158, 0.85);
+    }
+`;
+
+
 export default function PostTweetForm() {
     const [isLoading, setLoading] = useState(false);
     const [tweet, setTweet] = useState("");
     const [emo, setEmoji] = useState(false);
     const [file, setFile] = useState<File | null>(null);
+    const [photourl,  setPhotourl] = useState("");
     const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTweet(e.target.value);
     };
+
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (files && files.length === 1) {
-        setFile(files[0]);
-    }
-    };// make tweet form submit
+        const { files } = e.target;
+        const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
+        if (files && files.length === 1) {
+            if(files && files[0].size > maxfilesize){
+                alert("File size is too big. maximun file size is 1mb");
+                return;
+            }// filesize가 1mb 보다 크면 alert 띄우고 return.
+            setFile(files[0]);
+            const newimgsrc = URL.createObjectURL(files[0]);
+            setPhotourl(newimgsrc);// 고른 이미지의 url 생성해서 보여주기용으로 보냄.
+        }
+    };// read tweet file form onchange.
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const user = auth.currentUser;
         if (!user || isLoading || tweet === "" || tweet.length > 200) return;
-        const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
-        if(file && file.size > maxfilesize){
-            alert("File size is too big. maximun file size is 1mb");
-            return;
-        }// filesize가 1mb 보다 크면 alert 띄우고 return.
         try {
             setLoading(true);
             const doc = await addDoc(collection(db, "tweets"), {
-            tweet,// tweet form
+            tweet,// tweet submitted form
             createdAt: Date.now(),// date
             username: user.displayName || "Anonymous",// if no username
             userId: user.uid,// id of user
@@ -129,7 +160,8 @@ export default function PostTweetForm() {
                 });
             }// upload photo and set information about photo.
             setTweet("");
-            setFile(null);// reset tweet, photo file.
+            setFile(null);
+            setPhotourl("");// reset tweet, photo file, temp img url.
         } catch (e) {
             alert(e);// alert error
         } finally {
@@ -154,6 +186,10 @@ export default function PostTweetForm() {
         window.open("https://mintae1117.github.io/Javascript-Todo-App/");
     };// open my js planner if planner icon clicked.
 
+    const onimgdeleteClick = () => {
+        setFile(null);
+        setPhotourl("");
+    };// photo file, temp img url reset.
     return (
         <FormWrapper>
             <Form onSubmit={onSubmit}>
@@ -164,6 +200,10 @@ export default function PostTweetForm() {
                     value={tweet}
                     placeholder="What is happening?!"
                 />
+                <Imgdiv>
+                    <ImgArea src={photourl} />
+                    { photourl === "" ? null : <Imgdeletebtn onClick={onimgdeleteClick}>X</Imgdeletebtn>}
+                </Imgdiv>
                 <ButtonWrapper>
                     <AttachFileButton htmlFor="file">
                     {file ? "Photo added ✅" : 
@@ -182,7 +222,7 @@ export default function PostTweetForm() {
                             width={300}
                             height={400}
                             skinTonesDisabled
-                            />{/* 3시간 투자 왜 에러 나는건지 전혀 모르겠음... 코드는 잘돌아감. */}
+                            />{/* theme="dark" emojiStyle="twitter" 얘네 넣으면 왜 에러 나는건지 전혀 모르겠음... 넣어도 코드는 잘돌아감. */}
                         </EmojiBox>
                     </AttachFileButton>
                     <AttachFileButton>
