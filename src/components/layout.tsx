@@ -105,6 +105,7 @@ const MenuItem = styled.button`
         svg{
             margin: 0px;
             padding: 0;
+            padding-left: 5px;
         }
     }// mobile ver css
     &.log-out {// original log out btn css

@@ -10,24 +10,25 @@ export interface ITweet {
   tweet: string;
   userId: string;
   username: string;
-  createdAt: number;
+  createdDate: number;
 }
 
 const Wrapper = styled.div``;
 
 export default function Timeline() {
   const [tweets, setTweet] = useState<ITweet[]>([]);
+
   const fetchTweets = async () => {
     const tweetsQuery = query(
       collection(db, "tweets"),
-      orderBy("createdAt", "desc")
+      orderBy("createdDate", "desc")
     );
     const spanshot = await getDocs(tweetsQuery);
     const tweets = spanshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, photo } = doc.data();
+      const { tweet, createdDate, userId, username, photo } = doc.data();
       return {
         tweet,
-        createdAt,
+        createdDate,
         userId,
         username,
         photo,
@@ -36,9 +37,11 @@ export default function Timeline() {
     });
     setTweet(tweets);
   };
+  
   useEffect(() => {
     fetchTweets();
   }, []);
+  
   return (
     <Wrapper>
       {tweets.map((tweet) => (

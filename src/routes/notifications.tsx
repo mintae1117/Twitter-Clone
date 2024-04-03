@@ -122,18 +122,18 @@ export default function Home(){
             <Letterdiv>
                 {(onwhatPage === "all") ? 
                     <Letterdiv2>
-                        <BigLetter>All<br></br>Nothing to see here — yet</BigLetter>
+                        <BigLetter>All.<br></br>Nothing to see here — yet</BigLetter>
                         <SmallLetter>From likes to reposts and a whole lot more, this is where all the action happens.</SmallLetter>
                     </Letterdiv2>
                     : (onwhatPage === "veri") ? 
                     <Letterdiv2>
                         <VeriImg />
-                        <BigLetter>Verified<br></br>Nothing to see here — yet</BigLetter>
+                        <BigLetter>Verified.<br></br>Nothing to see here — yet</BigLetter>
                         <SmallLetter>Likes, mentions, reposts, and a whole lot more — when it comes from a verified account, you’ll find it here. Learn more</SmallLetter>
                     </Letterdiv2>
                     : (onwhatPage === "mention") ? 
                     <Letterdiv2>
-                        <BigLetter>Mentions<br></br>Nothing to see here — yet</BigLetter>
+                        <BigLetter>Mentions.<br></br>Nothing to see here — yet</BigLetter>
                         <SmallLetter>When someone mentions you, you’ll find it here.</SmallLetter>
                     </Letterdiv2>
                     : null
