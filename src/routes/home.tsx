@@ -72,7 +72,7 @@ export default function Home(){
                 <PostTweetForm />
                 <Timeline />
             </TweetWrapper>
-             : <h2>following</h2>}
+             : <><PostTweetForm /><h2>following part</h2></>}
         </Wrapper>
     );
 }
