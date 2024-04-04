@@ -3,7 +3,7 @@ import { ITweet } from "./timeline";
 import { useState } from "react";
 import { useOutsideClick } from "../useOutsideClick";
 import { auth, db, storage } from "../firebase";
-import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';
 
