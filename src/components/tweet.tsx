@@ -410,7 +410,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
                             id="editfile"
                             accept="image/*"
                         />
-                        <SubmitBtn type="submit" value={isLoading ? "Posting..." : "Post"} />
+                        <SubmitBtn type="submit" value={isLoading ? "Editing..." : "Edit"} />
                     </ButtonWrapper>
                 </Form>
             </Editbox> : null
