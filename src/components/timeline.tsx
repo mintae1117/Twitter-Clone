@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { db } from "../firebase";
@@ -21,7 +21,8 @@ export default function Timeline() {
   const fetchTweets = async () => {
     const tweetsQuery = query(
       collection(db, "tweets"),
-      orderBy("createdDate", "desc")
+      orderBy("createdDate", "desc"),
+      limit(25)// 최근 25개만 가져오기. 요금제 때문에.
     );
     const spanshot = await getDocs(tweetsQuery);
     const tweets = spanshot.docs.map((doc) => {
@@ -41,7 +42,7 @@ export default function Timeline() {
   useEffect(() => {
     fetchTweets();
   }, []);
-  
+
   return (
     <Wrapper>
       {tweets.map((tweet) => (

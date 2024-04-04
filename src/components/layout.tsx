@@ -1,6 +1,7 @@
 import { Link, Outlet, useMatch, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { auth } from "../firebase";
+import RightBar from "./rightbar-element";
 
 const Wrapper = styled.div`
     display: grid;
@@ -22,7 +23,7 @@ const Leftbar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding-left: 10px;
+    padding-left: 30px;
     gap: 7px;
     @media (max-width: 1260px) {
         align-items: end;
@@ -33,7 +34,7 @@ const Leftbar = styled.div`
     }// mobile ver left bar css
 `;// original left bar css
 
-const Rightbar = styled.div`
+const Rightbarbox = styled.div`
     position: sticky;
     top: 0%;
     height: fit-content;
@@ -257,9 +258,9 @@ export default function Layout() {
             </MenuItem>
         </Leftbar>{/* leftbar 끝. */}
         <Outlet />{/* 여기에 outlet 들어옴 home,explore,profile etx... */}
-        <Rightbar>
-            <h2>search</h2>
-        </Rightbar>{/* rightbar (즉 searchbar) 끝. */}
+        <Rightbarbox>
+            <RightBar/>
+        </Rightbarbox>{/* rightbar (즉 searchbar) 끝. */}
     </Wrapper>
     );
 }

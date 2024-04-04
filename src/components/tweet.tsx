@@ -2,6 +2,9 @@ import { styled } from "styled-components";
 import { ITweet } from "./timeline";
 import { useState } from "react";
 import { useOutsideClick } from "../useOutsideClick";
+import { auth, db, storage } from "../firebase";
+import { deleteDoc, doc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
 
 
 const Wrapper = styled.div`
@@ -32,6 +35,11 @@ const Photo = styled.img`
     border-radius: 5px;
 `;
 
+const Payload = styled.p`
+    margin: 10px 0px;
+    font-size: 18px;
+`;
+
 const Username = styled.span`
     font-weight: 600;
     font-size: 15px;
@@ -45,6 +53,7 @@ const UserDate = styled.span`
 
 const MoreBox = styled.div`
     float: right;
+    position: relative;
 `;
 
 const MoreBtn = styled.div`
@@ -65,54 +74,90 @@ const MoreBtn = styled.div`
 
 const ModalDiv = styled.div`
     position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 1px solid red;
-    background-color: gray;
-`
-
-const Payload = styled.p`
-    margin: 10px 0px;
-    font-size: 18px;
+    right: 0px;
+    top: -10px;
 `;
 
-export default function Tweet({ username, photo, tweet, createdDate }: ITweet) {
+const ModalBtn = styled.button`
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    color: white;
+    font-size: 20px;
+    background-color: black ;
+    border-radius: 10px;
+    svg{
+        width: 20px;
+        margin-right: 10px;
+    }
+    &.del{
+        color: tomato;
+    }
+`;
+
+export default function Tweet({ username, photo, tweet, createdDate, userId, id }: ITweet) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const user = auth.currentUser;
+
+    const onDelete = async () => {
+    const ok = confirm("Are you sure you want to delete this tweet?");
+    if (!ok || user?.uid !== userId) return;
+    try {
+        await deleteDoc(doc(db, "tweets", id));
+        if (photo) {
+        const photoRef = ref(storage, `tweets/${user.uid}/${id}`);
+        await deleteObject(photoRef);
+        }
+    } catch (e) {
+        console.log(e);
+    } finally {
+        window.location.replace("/");// 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기.
+        //
+    }
+    };
 
     const elapsedTime = (date: number): string => {
         const start = new Date(date);
         const end = new Date();
-    
         const seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
         if (seconds < 60) return 'just now';
-    
         const minutes = seconds / 60;
         if (minutes < 60) return `${Math.floor(minutes)}m`;
-    
         const hours = minutes / 60;
         if (hours < 24) return `${Math.floor(hours)}h`;
-    
         const days = hours / 24;
-        if (days < 7) return `${Math.floor(days)}day`;
-    
+        if (days < 7) return `${Math.floor(days)}d`;
         return `${start.toLocaleDateString()}`;
-    };// 몇분 몇시간 몇일 전인지.
+    };// 몇분 몇시간 몇일 전인지 timestamp setting.
 
-    const ref = useOutsideClick(() => {
+    const modalref = useOutsideClick(() => {
         setIsModalOpen(false);
-    });// modal outside click ref
+    });// modal outside click ref.
 
     return (
     <Wrapper>
         <Column>
+            {user?.uid === userId ? 
             <MoreBox>
                 <MoreBtn>
                 <svg onClick={() => setIsModalOpen(true)} fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
                 </MoreBtn>
-                {isModalOpen === true ? <ModalDiv ref={ref}>del and re</ModalDiv> : null}
-            </MoreBox>
+                {isModalOpen === true ? <ModalDiv ref={modalref}>
+                    <ModalBtn onClick={() => setIsModalOpen(false)}>
+                        <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                        edit</ModalBtn>
+                    <ModalBtn onClick={() => {setIsModalOpen(false), onDelete()}} className="del">
+                        <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                        delete</ModalBtn>
+                </ModalDiv> : null}
+            </MoreBox> : null
+            }
             <Username>{username} <UserDate>@{username} · {elapsedTime(createdDate)}</UserDate></Username>
             <Payload>{tweet}</Payload>
         </Column>
