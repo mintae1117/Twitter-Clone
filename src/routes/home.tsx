@@ -68,11 +68,12 @@ export default function Home(){
                 <HeaderBtn onClick={followingClicked} className={onwhatPage === "following" ? "active" : ""}>Following</HeaderBtn>
             </Header>
             {onwhatPage === "foryou" ? 
-            <TweetWrapper>
-                <PostTweetForm />
-                <Timeline />
-            </TweetWrapper>
-             : <><PostTweetForm /><h2>following part</h2></>}
+                <TweetWrapper>
+                    <PostTweetForm />
+                    <Timeline />
+                </TweetWrapper>
+                : <><PostTweetForm /><h2>following part</h2></>
+            }
         </Wrapper>
     );
 }

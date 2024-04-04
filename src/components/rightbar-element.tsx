@@ -1,3 +1,8 @@
+
 export default function RightBar(){
-    return <h1>search right bar</h1>;
+    return (
+        <>
+            <h2>search right bar</h2>
+        </>
+    );
 }
