@@ -5,8 +5,7 @@ import { useOutsideClick } from "../useOutsideClick";
 import { auth, db, storage } from "../firebase";
 import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
-
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';
 
 const Wrapper = styled.div`
     display: flex;
@@ -204,26 +203,15 @@ const ImgArea = styled.img`
     border-radius: 5px;
 `;
 
-const Imgdeletebtn = styled.div`
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    font-size: 20px;
-    align-items: center;
-    background-color: rgba(66, 66, 66, 0.85);
-    color: white;
-    cursor: pointer;
-    border-color: transparent;
-    border-radius: 50%;
-    &:hover{
-        background-color: rgba(158, 158, 158, 0.85);
-    }
-`;
-
 export default function Tweet({ username, photo, tweet, createdDate, userId, id }: ITweet) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const user = auth.currentUser;
+    const [isLoading, setLoading] = useState(false);
+    const [edittweet, setEditTweet] = useState(tweet);
+    const [emo, setEmoji] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
+    const [photourl,  setPhotourl] = useState(photo);
 
     const onDelete = async () => {
         const ok = confirm("Are you sure you want to delete this tweet?");
@@ -240,22 +228,6 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
             window.location.replace("/");// 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기.
         }
     };// delete button 기능.
-
-    const onDeleteEdit = async () => {
-        const ok = true;
-        if (!ok || user?.uid !== userId) return;
-        try {
-            await deleteDoc(doc(db, "tweets", id));
-            if (photo) {
-            const photoRef = ref(storage, `tweets/${user.uid}-${user.displayName}/${id}`);
-            await deleteObject(photoRef);
-            }
-        } catch (e) {
-            alert(e);
-        } finally {
-            window.location.replace("/");// 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기.
-        }
-    };// edit delete 기능.
 
     const elapsedTime = (date: number): string => {
         const start = new Date(date);
@@ -276,12 +248,6 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
     });// modal outside click ref.
 
     //-------------------edit start-------------------------
-    const [isLoading, setLoading] = useState(false);
-    const [edittweet, setEditTweet] = useState(tweet);
-    const [emo, setEmoji] = useState(false);
-    const [file, setFile] = useState<File | null>(null);
-    const [photourl,  setPhotourl] = useState(photo);
-
     const editref = useOutsideClick(() => {
         setIsEdit(false);
     });// modal outside click ref.
@@ -313,26 +279,24 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
         e.preventDefault();
         const user = auth.currentUser;
         const editok = confirm("Are you sure you want to edit this tweet?");
-        if (!user || isLoading || edittweet === "" || edittweet.length > 200) return;
-        else if (!editok) return;
+        if (!user || isLoading || edittweet === "" || edittweet.length > 200 || !editok) return;
         try {
             setLoading(true);
-            tweet = edittweet;
-            const doc = await addDoc(collection(db, "tweets"), {
-            tweet,// tweet submitted form
-            createdDate: Date.now(),// date
-            username: user.displayName || "Anonymous",// if no username
-            userId: user.uid,// id of user
+            const tweetRef = doc(db, "tweets", id);
+            await updateDoc(tweetRef, {
+                tweet: edittweet,
             });
             //console.log(file);
             if (file) {// if file exsists
-                const locationRef = ref(
-                    storage,
-                    `tweets/${user.uid}-${user.displayName}/${doc.id}`
-                );// use ref
+                if (photo) {
+                    const photoRef = ref(storage, `tweets/${user.uid}-${user.displayName}/${id}`);
+                    await deleteObject(photoRef);
+                }
+                const locationRef = ref( storage, `tweets/${user.uid}-${user.displayName}/${id}`);// use ref
                 const result = await uploadBytes(locationRef, file);// use uploadbytes
                 const url = await getDownloadURL(result.ref);// use getdownloadurl
-                await updateDoc(doc, {
+
+                await updateDoc(tweetRef, {
                     photo: url,
                 });// use updatedoc
             }// upload photo and set information about photo.
@@ -342,7 +306,6 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
         } catch (e) {
             alert(e);// alert error
         } finally {
-            onDeleteEdit();
             window.location.replace("/");// submit 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기.
             setLoading(false);
         }
@@ -356,10 +319,6 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
         setEditTweet((prevInput) => prevInput + event.emoji);
     };// add emoji with original tweet text.
 
-    const onimgdeleteClick = () => {
-        setFile(null);
-        setPhotourl(undefined);
-    };// photo file, temp img url reset.
     //-------------------edit end-------------------------
 
     return (
@@ -374,7 +333,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
                     </svg>
                     </MoreBtn>
                     {isModalOpen === true ? <ModalDiv ref={modalref}>
-                        <ModalBtn onClick={() => {setIsModalOpen(false), setIsEdit(true), setPhotourl(photo)}}>
+                        <ModalBtn onClick={() => {setIsModalOpen(false), setIsEdit(true), setPhotourl(photo), setEditTweet(tweet)}}>
                             <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                             </svg>
@@ -421,11 +380,10 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
                     />
                     <Imgdiv>
                         <ImgArea src={photourl} />
-                        { photourl === undefined ? null : <Imgdeletebtn onClick={onimgdeleteClick}>X</Imgdeletebtn>}
                     </Imgdiv>
                     <ButtonWrapper>
                         <AttachFileButton htmlFor="editfile">
-                        {file ? "Img added ✅" : 
+                        {file ? "Img edited ✅" : 
                             <svg fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                             </svg>
