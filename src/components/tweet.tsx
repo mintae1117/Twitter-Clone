@@ -418,5 +418,3 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
     </>
     );
 }
-
-// 처음에 file 세팅을 storage 에 있는 사진으로 하기.
