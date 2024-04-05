@@ -96,12 +96,13 @@ const Imgdiv = styled.div`
 const ImgArea = styled.img`
     width: 100%;
     border-radius: 5px;
+    margin-top: 10px;
 `;
 
 const Imgdeletebtn = styled.button`
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 15px;
     font-size: 20px;
     align-items: center;
     background-color: rgba(66, 66, 66, 0.85);
