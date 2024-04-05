@@ -70,9 +70,10 @@ const RightTrendBox = styled.div`
     max-width: 350px;
     width: 85%;
     height: auto;
-    min-height: 300px;
+    min-height: 400px;
     padding-top: 10px;
     padding-left: 15px;
+    padding-right: 10px;
     border-radius: 15px;
     h3{
         font-weight: 800;
@@ -81,6 +82,8 @@ const RightTrendBox = styled.div`
     }
     p{
         color: gray;
+        line-height: 120%;
+        margin-bottom: 10px;
     }
 `;
 
@@ -89,7 +92,7 @@ const RightFollowBox = styled.div`
     max-width: 350px;
     width: 85%;
     height: auto;
-    min-height: 200px;
+    min-height: 150px;
     padding-top: 10px;
     padding-left: 15px;
     border-radius: 15px;
@@ -118,8 +121,11 @@ export default function RightBar(){
             <SubmitBtn>Subscribe</SubmitBtn>
         </RightSubBox>
         <RightTrendBox>
-            <h3>Trends for you</h3>
-            <p>Not ready yet.</p>
+            <h3>사용 가능 기능, 디자인.</h3>
+            <p>1. 로그인 화면 : 비번 틀릴시 리셋 이메일 전송 여부 표시, 구글과 깃헙 로그인, 문제 발생 시 error 표시.</p>
+            <p>2. 계정생성 화면 : 이메일 이용한 간단한 계정생성, 계정 존재시 리셋 이메일 전송 여부 표시, 구글과 깃헙 계정사용, 각 단계별 문제 발생 시 error 표시.</p>
+            <p>3. 홈 화면 : 게시물 작성, 사진첨부, 첨부사진 표시, 첨부사진 삭제, 이모티콘 기입, 게시글 권한 식별, 권한 게시글 삭제, 권한 게시글 수정, 게시물 만든 시간 표시(just now,m,d,h...), 게시물 작성자 이름 표시.</p>
+            <p>4. styled-component를 이용한 반응형 css, 원본 사이트와 최대한 동일한 UI로 구현.</p>
         </RightTrendBox>
         <RightFollowBox>
             <h3>Who to follow</h3>
