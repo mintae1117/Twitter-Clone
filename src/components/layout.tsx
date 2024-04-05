@@ -39,7 +39,6 @@ const Rightbarbox = styled.div`
     top: 0%;
     height: fit-content;
     // position sticky 를 위한 css 세팅
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     align-items: center;
