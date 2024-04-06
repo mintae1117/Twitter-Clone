@@ -70,9 +70,10 @@ const Homelogo = styled.div`
 
 const MenuItem = styled.button`
     &.active{
-        font-weight: 1000;
+        font-weight: 700;
         svg{
-            fill: #acacac;
+            fill: white;
+            color: #d2d2d2;
         }
     }// navbar active css
     border-color: transparent;
