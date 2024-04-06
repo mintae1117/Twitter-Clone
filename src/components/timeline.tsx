@@ -11,6 +11,7 @@ export interface ITweet {
   userId: string;
   username: string;
   createdDate: number;
+  avatarUrl: string;
 }
 
 const Wrapper = styled.div``;
@@ -26,13 +27,14 @@ export default function Timeline() {
     );
     const spanshot = await getDocs(tweetsQuery);
     const tweets = spanshot.docs.map((doc) => {
-      const { tweet, createdDate, userId, username, photo } = doc.data();
+      const { tweet, createdDate, userId, username, photo, avatarUrl } = doc.data();
       return {
         tweet,
         createdDate,
         userId,
         username,
         photo,
+        avatarUrl,
         id: doc.id,
       };
     });

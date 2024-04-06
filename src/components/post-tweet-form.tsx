@@ -5,12 +5,14 @@ import { auth, db, storage } from "../firebase";
 import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';// add and learn emoji-picker 2024-03-31
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useOutsideClick } from "../useOutsideClick";
+import { useNavigate } from "react-router-dom";
 
 const FormWrapper = styled.div`
     border-bottom: 0.5px solid gray;
 `;
 
 const Form = styled.form`
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -115,12 +117,36 @@ const Imgdeletebtn = styled.button`
     }
 `;
 
+const AvatarUpload = styled.label`
+    position: absolute;
+    top: 17px;
+    left: -50px;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: gray;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 50px;
+    }
+`;
+
+const AvatarImg = styled.img`
+  width: 100%;
+`;
+
 export default function PostTweetForm() {
     const [isLoading, setLoading] = useState(false);
     const [tweet, setTweet] = useState("");
     const [emo, setEmoji] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [photourl,  setPhotourl] = useState("");
+    const user = auth.currentUser;
+    const avatar = user?.photoURL;
     
     const emojiref = useOutsideClick(() => {
         setEmoji(false);
@@ -156,6 +182,7 @@ export default function PostTweetForm() {
             createdDate: Date.now(),// date
             username: user.displayName || "Anonymous",// if no username
             userId: user.uid,// id of user
+            avatarUrl: user.photoURL,// avatar url
             });
             //console.log(file);
             if (file) {// if file exsists
@@ -201,9 +228,25 @@ export default function PostTweetForm() {
         setPhotourl("");
     };// photo file, temp img url reset.
 
+    const navigate = useNavigate();
+
     return (
         <FormWrapper>
             <Form onSubmit={onSubmit}>
+                <AvatarUpload onClick={() => navigate("/profile")}>
+                    {avatar ? (
+                    <AvatarImg src={avatar} />
+                    ) : (
+                    <svg
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                    >
+                        <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                    </svg>
+                    )}
+                </AvatarUpload>
                 <TextArea
                     rows={5}
                     maxLength={180}

@@ -15,7 +15,9 @@ const Wrapper = styled.div`
     border-bottom: 0.5px solid gray;
 `;
 
-const Column = styled.div``;
+const Column = styled.div`
+    position: relative;
+`;
 
 const Columnsvg = styled.div`
     margin-top: 5px;
@@ -73,6 +75,7 @@ const MoreBtn = styled.div`
 `;
 
 const ModalDiv = styled.div`
+    z-index: 5;
     position: absolute;
     right: 0px;
     top: -10px;
@@ -213,7 +216,30 @@ const ImgArea = styled.img`
     margin-top: 10px;
 `;
 
-export default function Tweet({ username, photo, tweet, createdDate, userId, id }: ITweet) {
+const AvatarUpload = styled.label`
+    position: absolute;
+    top: 0px;
+    left: -50px;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: gray;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 50px;
+        padding-top: 10px;
+    }
+`;
+
+const AvatarImg = styled.img`
+  width: 100%;
+`;
+
+export default function Tweet({ username, photo, tweet, createdDate, userId, avatarUrl, id }: ITweet) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const user = auth.currentUser;
@@ -222,6 +248,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
     const [emo, setEmoji] = useState(false);
     const [file, setFile] = useState<File | null>(null);
     const [photourl,  setPhotourl] = useState(photo);
+    const avatar = avatarUrl;
 
     const onDelete = async () => {
         const ok = confirm("Are you sure you want to delete this tweet?");
@@ -358,6 +385,20 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, id 
                     </ModalDiv> : null}
                 </MoreBox> : null
                 }
+                <AvatarUpload>
+                    {avatar ? (
+                    <AvatarImg src={avatar} />
+                    ) : (
+                    <svg
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                    >
+                        <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                    </svg>
+                    )}
+                </AvatarUpload>
                 <Username>{username} <UserDate>@{username} · {elapsedTime(createdDate)}</UserDate></Username>
                 <Payload>{tweet}</Payload>
             </Column>

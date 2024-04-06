@@ -144,6 +144,83 @@ const Circle = styled.div`
     }// mobile ver css
 `;
 
+const ProfileDiv = styled.div`
+    cursor: pointer;
+    position: relative;
+    margin-top: 160px;
+    border: transparent;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 265px;
+    height: 60px;
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    &:hover{
+        transition-duration: 0.3s;
+        background-color: #1d1d1d;
+    }
+    @media (max-height: 900px) {
+        margin-top: 50px;
+    }
+    @media (max-height: 800px) {
+        margin-top: 0px;
+    }
+    @media (max-width: 1260px) {
+        margin-right: -5px;
+        width: 60px;
+        height: 60px;
+        svg{
+            display: none;
+        }
+    }// mobile ver css
+    svg{
+        margin-left: auto;
+        width: 20px;
+    }
+`;
+
+const ProfileTextdiv = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    max-width: 140px;
+    @media (max-width: 1260px) {
+        display: none;
+    }// mobile ver css
+`;
+
+const AvatarUpload = styled.label`
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: gray;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 50px;
+    }
+`;
+
+const AvatarImg = styled.img`
+    width: 100%;
+`;
+
+const Name = styled.span`
+    font-size: 17px;
+`;
+
+const Email = styled.span`
+    font-size: 12px;
+    color: gray;
+`;
+
 export default function Layout() {
     const homeMatch = useMatch("/");
     const exploreMatch = useMatch("/explore");
@@ -153,6 +230,8 @@ export default function Layout() {
     const bookmarkMatch = useMatch("/bookmarks");
     const commuMatch = useMatch("/communities");
     const profileMatch = useMatch("/profile");
+    const user = auth.currentUser;
+    const avatar = user?.photoURL;
     //usematch 를 이용하여 navbar active / not active 정해주기
     const navigate = useNavigate();
     const onLogOut = async () => {
@@ -256,11 +335,40 @@ export default function Layout() {
                 </svg>
                 Log out
             </MenuItem>
+            <ProfileDiv onClick={() => navigate("/profile")}>
+                <AvatarUpload>
+                    {avatar ? (
+                    <AvatarImg src={avatar} />
+                    ) : (
+                    <svg
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                    >
+                        <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+                    </svg>
+                    )}
+                </AvatarUpload>
+                <ProfileTextdiv>
+                    <Name>{user?.displayName ?? "Anonymous"}</Name>
+                    {user?.email && user?.email?.length > 30 ? 
+                    <Email>Email is too long.</Email>
+                    : 
+                    <Email>@{user?.email ?? "Email not registered"}</Email>
+                    }
+                </ProfileTextdiv>
+                <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM8.5 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM15.5 8.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />
+                </svg>
+            </ProfileDiv>
         </Leftbar>{/* leftbar 끝. */}
         <Outlet />{/* 여기에 outlet 들어옴 home,explore,profile etx... */}
+        {exploreMatch !== null ? null : 
         <Rightbarbox>
             <RightBar/>
-        </Rightbarbox>{/* rightbar (즉 searchbar) 끝. */}
+        </Rightbarbox>/* rightbar (즉 searchbar) 끝. */
+        }
     </Wrapper>
     );
 }

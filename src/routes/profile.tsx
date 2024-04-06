@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { auth, storage } from "../firebase";
+import { auth,  storage } from "../firebase";
 import { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
@@ -52,7 +52,7 @@ const AvatarUpload = styled.label`
     overflow: hidden;
     border: 4px solid black;
     border-radius: 50%;
-    background-color: #1d9bf0;
+    background-color: gray;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -65,6 +65,7 @@ const AvatarUpload = styled.label`
 const AvatarImg = styled.img`
   width: 100%;
 `;
+
 const AvatarInput = styled.input`
   display: none;
 `;
@@ -93,25 +94,30 @@ export default function Profile(){
     const user = auth.currentUser;
     const [avatar, setAvatar] = useState(user?.photoURL);
     const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (!user) return;
-    if (files && files.length === 1) {
-        const file = files[0];
-        const locationRef = ref(storage, `avatars/${user?.uid}`);
-        const result = await uploadBytes(locationRef, file);
-        const avatarUrl = await getDownloadURL(result.ref);
-        setAvatar(avatarUrl);
-        await updateProfile(user, {
-            photoURL: avatarUrl,
-        });
-    }
+        const { files } = e.target;
+        if (!user) return;
+        if (files && files.length === 1) {
+            const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
+            if(files && files[0].size > maxfilesize){
+                alert("File size is too big. maximun file size is 1mb");
+                return;
+            }// filesize가 1mb 보다 크면 alert 띄우고 return.
+            const file = files[0];
+            const locationRef = ref(storage, `avatars/${user?.uid}`);
+            const result = await uploadBytes(locationRef, file);
+            const avatarUrl = await getDownloadURL(result.ref);
+            setAvatar(avatarUrl);
+            await updateProfile(user, {
+                photoURL: avatarUrl,
+            });
+        }
     };
     return (
         <Wrapper>
             <Header>
                 <HeaderBtn>{user?.displayName ?? "Anonymous"}</HeaderBtn>
             </Header>
-            <BackgroundImg></BackgroundImg>
+            <BackgroundImg>bgimg</BackgroundImg>
             <AvatarUpload htmlFor="avatar">
                 {avatar ? (
                 <AvatarImg src={avatar} />
@@ -135,6 +141,7 @@ export default function Profile(){
             <MyProfileBox>
             <Name>{user?.displayName ?? "Anonymous"}</Name>
             <Email>{user?.email ?? "Email not registered"}</Email>
+            <Email>Joined {user?.metadata.creationTime ?? "/No registered time"}</Email>
             </MyProfileBox>
         </Wrapper>
     );
