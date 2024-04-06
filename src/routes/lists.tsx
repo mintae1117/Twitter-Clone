@@ -1,3 +1,9 @@
-export default function Profile(){
-    return <h1>list</h1>;
+import { MyDiv, Sorry } from "./bookmarks";
+
+export default function Lists(){
+    return (
+        <MyDiv>
+            <Sorry>Lists</Sorry>
+        </MyDiv>
+    );
 }

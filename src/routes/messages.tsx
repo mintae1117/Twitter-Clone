@@ -1,3 +1,9 @@
-export default function Profile(){
-    return <h1>messages</h1>;
+import { MyDiv, Sorry } from "./bookmarks";
+
+export default function Messages(){
+    return (
+        <MyDiv>
+            <Sorry>Messages</Sorry>
+        </MyDiv>
+    );
 }

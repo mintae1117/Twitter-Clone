@@ -22,7 +22,7 @@ export default function Timeline() {
     const tweetsQuery = query(
       collection(db, "tweets"),
       orderBy("createdDate", "desc"),
-      limit(25)// 최근 25개만 가져오기. 요금제 때문에.
+      limit(30)// 최근 30개만 가져오기. 요금제 때문에.
     );
     const spanshot = await getDocs(tweetsQuery);
     const tweets = spanshot.docs.map((doc) => {

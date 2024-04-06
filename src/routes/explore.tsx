@@ -1,3 +1,9 @@
-export default function Profile(){
-    return <h1>explore</h1>;
+import { MyDiv, Sorry } from "./bookmarks";
+
+export default function Explore(){
+    return (
+        <MyDiv>
+            <Sorry>Explore</Sorry>
+        </MyDiv>
+    );
 }

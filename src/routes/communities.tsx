@@ -1,3 +1,9 @@
-export default function Profile(){
-    return <h1>communities</h1>;
+import { MyDiv, Sorry } from "./bookmarks";
+
+export default function Communities(){
+    return (
+        <MyDiv>
+            <Sorry>Communities</Sorry>
+        </MyDiv>
+    );
 }
