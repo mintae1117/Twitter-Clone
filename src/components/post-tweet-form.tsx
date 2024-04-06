@@ -272,6 +272,7 @@ export default function PostTweetForm() {
                         </svg>
                         <EmojiBox ref = {emojiref} className={emo === false ? "active" : ""}>
                             <EmojiPicker 
+                            style={{zIndex:9}}
                             onEmojiClick={onEmojiClick}
                             width={300}
                             height={400}

@@ -25,8 +25,8 @@ export default function Timeline() {
       orderBy("createdDate", "desc"),
       limit(30)// 최근 30개만 가져오기. 요금제 때문에.
     );
-    const spanshot = await getDocs(tweetsQuery);
-    const tweets = spanshot.docs.map((doc) => {
+    const snapshot = await getDocs(tweetsQuery);
+    const tweets = snapshot.docs.map((doc) => {
       const { tweet, createdDate, userId, username, photo, avatarUrl } = doc.data();
       return {
         tweet,

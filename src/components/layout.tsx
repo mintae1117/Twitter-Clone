@@ -217,7 +217,7 @@ const Name = styled.span`
 `;
 
 const Email = styled.span`
-    font-size: 12px;
+    font-size: 13px;
     color: gray;
 `;
 
@@ -355,7 +355,7 @@ export default function Layout() {
                     {user?.email && user?.email?.length > 30 ? 
                     <Email>Email is too long.</Email>
                     : 
-                    <Email>@{user?.email ?? "Email not registered"}</Email>
+                    <Email>{user?.email ?? "Email not registered"}</Email>
                     }
                 </ProfileTextdiv>
                 <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
