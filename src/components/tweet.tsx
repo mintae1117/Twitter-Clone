@@ -262,7 +262,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, ava
         } catch (e) {
             alert(e);
         } finally {
-            window.location.replace("/");// 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기.
+            window.location.replace("/");// 버튼 눌렀을때 새로고침 해서 올린 내용까지 나타내기. realtime 쓸수있지만 너무 용량이 빨리나감.
         }
     };// delete button 기능.
 
