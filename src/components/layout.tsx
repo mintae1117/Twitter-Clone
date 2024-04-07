@@ -162,7 +162,7 @@ const ProfileDiv = styled.div`
         background-color: #1d1d1d;
     }
     @media (max-height: 900px) {
-        margin-top: 50px;
+        margin-top: 40px;
     }
     @media (max-height: 800px) {
         margin-top: 0px;

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
-import { auth,  db,  storage } from "../firebase";
+import { auth,  db } from "../firebase";
 import { useEffect, useState } from "react";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import {
     collection,
@@ -30,10 +30,18 @@ const Wrapper = styled.div`
     }
 `;
 
-const BackgroundImg = styled.div`
+const BackgroundImg = styled.label`
     width: 100%;
     height: 200px;
     background-color: #333639;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+`;
+
+const BgImg = styled.img`
+    width: 100%;
 `;
 
 const Header = styled.div`
@@ -176,16 +184,30 @@ const FancyItems2 = styled.img`
     content: url(https://ton.twimg.com/onboarding/persistent_nux/profile_2x.png);
 `;
 
-
 export default function Profile(){
     const user = auth.currentUser;
     const [avatar, setAvatar] = useState(user?.photoURL);
     const [tweets, setTweets] = useState<ITweet[]>([]);
+    //const [bio, setBio] = useState("");
+    //const [avatarName, setavatarName] = useState(user?.displayName);
+    const [bgImg, setbgImg] = useState("");
+    const storage = getStorage();
+
+    useEffect(() => {
+        getDownloadURL(ref(storage, "bgimg/" + user?.uid))
+        .then((url) => {
+            setbgImg(url);
+        })
+        .catch((error) => {
+            console.log(error);
+        });// getting bgurl from storage.
+    }, []);
 
     const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (!user) return;
-        if (files && files.length === 1) {
+        const avatarok = confirm("Are you sure you want to edit your avatar image?");
+        if (files && files.length === 1 && avatarok) {
             const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
             if(files && files[0].size > maxfilesize){
                 alert("File size is too big. maximun file size is 1mb");
@@ -198,20 +220,39 @@ export default function Profile(){
             setAvatar(avatarUrl);
             await updateProfile(user, {
                 photoURL: avatarUrl,
+                //displayName: "악동꿀벌", // name change test
             });
             
             const q = query(collection(db, "tweets"), where("userId", "==", user?.uid));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((d) => {
-            // doc.data() is never undefined for query doc snapshots
             //console.log(d.id, " => ", d.data());
             updateDoc(doc(db, "tweets", d.id), {
                 avatarUrl: avatarUrl,
+                //username: "악동꿀벌", // name change test
             });
             });// get docs and set avatarurl again.
-            
+
         }
     };// user.photourl 을 avatarurl로 업데이트 시켜주기.
+
+    const onBgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { files } = e.target;
+        if (!user) return;
+        const bgimgok = confirm("Are you sure you want to edit your background image?");
+        if (files && files.length === 1 && bgimgok) {
+            const maxfilesize = 1 * 1024 * 1024;// file 크기 제한 1mb
+            if(files && files[0].size > maxfilesize){
+                alert("File size is too big. maximun file size is 1mb");
+                return;
+            }// filesize가 1mb 보다 크면 alert 띄우고 return.
+            const file = files[0];
+            const locationRef = ref(storage, `bgimg/${user?.uid}`);
+            const result = await uploadBytes(locationRef, file);
+            const bgUrl = await getDownloadURL(result.ref);
+            setbgImg(bgUrl);
+        }
+    };// bgimg 을 storage로 업데이트 시켜주기.
 
     const fetchTweets = async () => {
         const tweetsQuery = query(
@@ -244,7 +285,9 @@ export default function Profile(){
             <Header>
                 <HeaderBtn>{user?.displayName ?? "Anonymous"}</HeaderBtn>
             </Header>
-            <BackgroundImg>bgimg</BackgroundImg>
+            <BackgroundImg htmlFor="bgImg">
+                {bgImg ? <BgImg src={bgImg}></BgImg> : null}
+            </BackgroundImg>
             <AvatarUpload htmlFor="avatar">
                 {avatar ? (
                 <AvatarImg src={avatar} />
@@ -265,9 +308,16 @@ export default function Profile(){
                 type="file"
                 accept="image/*"
             />
+            <AvatarInput
+                onChange={onBgChange}
+                id="bgImg"
+                type="file"
+                accept="image/*"
+            />
             <MyProfileBox>
                 <Name>{user?.displayName ?? "Anonymous"}</Name>
                 <Email>{user?.email ?? "Email not registered"}</Email>
+                {/*bio ? <h3>{bio}</h3> : null*/}
                 <Email>Joined {user?.metadata.creationTime?.slice(8, 16) ?? "Undefined"}.</Email>
             </MyProfileBox>
             <Header1>
