@@ -205,6 +205,7 @@ const AvatarUpload = styled.label`
     align-items: center;
     svg {
         width: 50px;
+        padding-top: 10px;
     }
 `;
 
