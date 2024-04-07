@@ -5,10 +5,12 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import {
     collection,
+    doc,
     getDocs,
     limit,
     orderBy,
     query,
+    updateDoc,
     where,
 } from "firebase/firestore";
 import { ITweet } from "../components/timeline";
@@ -197,6 +199,17 @@ export default function Profile(){
             await updateProfile(user, {
                 photoURL: avatarUrl,
             });
+            
+            const q = query(collection(db, "tweets"), where("userId", "==", user?.uid));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((d) => {
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(d.id, " => ", d.data());
+            updateDoc(doc(db, "tweets", d.id), {
+                avatarUrl: avatarUrl,
+            });
+            });// get docs and set avatarurl again.
+            
         }
     };// user.photourl 을 avatarurl로 업데이트 시켜주기.
 

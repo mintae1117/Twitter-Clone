@@ -240,9 +240,9 @@ const AvatarImg = styled.img`
 `;
 
 export default function Tweet({ username, photo, tweet, createdDate, userId, avatarUrl, id }: ITweet) {
+    const user = auth.currentUser;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
-    const user = auth.currentUser;
     const [isLoading, setLoading] = useState(false);
     const [edittweet, setEditTweet] = useState(tweet);
     const [emo, setEmoji] = useState(false);
@@ -312,7 +312,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, ava
         e.target.value = "";// 초기화 시켜주기! 초기화 해야만 같은파일 다시해도 읽음! re) onchage 때문에 파일이 바뀌지 않으면 읽지 못한다!! 중요!!
     };// read tweet file form onchange.
 
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const user = auth.currentUser;
         const editok = confirm("Are you sure you want to edit this tweet?");
@@ -421,7 +421,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, ava
         {isEdit === true ? 
             <Editbox ref={editref}>
                 <Username>{username} <UserDate>@{username} · {elapsedTime(createdDate)}</UserDate></Username>
-                <Form onSubmit={onSubmit}>
+                <Form onSubmit={onSubmitEdit}>
                     <TextArea
                         rows={5}
                         maxLength={180}
