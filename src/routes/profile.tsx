@@ -36,6 +36,7 @@ const BackgroundImg = styled.label`
     background-color: #333639;
     overflow: hidden;
     align-items: center;
+    justify-content: center;
     display: flex;
     cursor: pointer;
 `;
@@ -257,7 +258,7 @@ export default function Profile(){
     const fetchTweets = async () => {
         const tweetsQuery = query(
             collection(db, "tweets"),
-            where("userId", "==", user?.uid),
+            where("userId", "==", user?.uid),// where을 써서 userid 가 같은것들만 가져온다! firebase에 따로 추가해야함!
             orderBy("createdDate", "desc"),
             limit(30)// 최근 30개만 가져오기. 요금제 때문에.
         );
@@ -278,7 +279,7 @@ export default function Profile(){
     };
     useEffect(() => {
         fetchTweets();
-    }, []);
+    }, []);// fetching tweets for profile timeline.
 
     return (
         <Wrapper>
@@ -286,7 +287,7 @@ export default function Profile(){
                 <HeaderBtn>{user?.displayName ?? "Anonymous"}</HeaderBtn>
             </Header>
             <BackgroundImg htmlFor="bgImg">
-                {bgImg ? <BgImg src={bgImg}></BgImg> : null}
+                {bgImg ? <BgImg src={bgImg}></BgImg> : <div><p>Touch for edit.</p></div>}
             </BackgroundImg>
             <AvatarUpload htmlFor="avatar">
                 {avatar ? (
