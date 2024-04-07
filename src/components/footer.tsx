@@ -8,7 +8,10 @@ const Myfooter = styled.h3`
     color: #5e5e5e;
     font-size: 15px;
     @media (max-width: 1000px) {
-        font-size: 12px;
+        font-size: 10px;
+    }
+    @media (max-width: 700px) {
+        display: none;
     }
 `;// footer css form
 

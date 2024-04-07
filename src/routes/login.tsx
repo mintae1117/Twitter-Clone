@@ -22,6 +22,7 @@ const TitleWrapper = styled.div`
     flex-direction: row;
     @media (max-width: 1150px){
         flex-direction: column;
+        padding: 30px;
     }
 `;
 

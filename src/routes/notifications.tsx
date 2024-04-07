@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 
 const Wrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 600px;
@@ -61,9 +62,10 @@ const HeaderTitle = styled.button`
 `;
 
 const Letterdiv = styled.div`
+    position: relative;
     padding: 120px;
     width: 100%;
-    height: 1200px;
+    height: auto;
     align-items: center;
     align-content: center;
 `;
@@ -71,7 +73,6 @@ const Letterdiv = styled.div`
 const Letterdiv2 = styled.div`
     width: 100%;
     height: 300px;
-    margin-top: -500px;
     align-items: center;
     align-content: center;
 `;

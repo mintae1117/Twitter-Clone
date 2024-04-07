@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 420px;
   padding: 150px 0px;
+  @media (max-width: 700px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 
 export const Title = styled.h2`
