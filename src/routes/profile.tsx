@@ -15,6 +15,8 @@ import {
 } from "firebase/firestore";
 import { ITweet } from "../components/timeline";
 import Tweet from "../components/tweet";
+import FacnyProfile from "../components/fancyprofile";
+import { useOutsideClick } from "../useOutsideClick";
 
 const Wrapper = styled.div`
     position: relative;
@@ -111,77 +113,92 @@ const Email = styled.span`
     color: gray;
 `;
 
-const Header1 = styled.div`
-    position: relative;
-    top: 0px;
-    height: 52px;
-    display: flex;
-    border-bottom: 0.5px solid gray;
-    flex-direction: row;
-    z-index: 1;// 충분한 크기의 z index 주기 (최상단 표시).
-`;
-
-const HeaderBtn1 = styled.button`
-    &.active{
-        font-weight: 700;
-        text-decoration: underline;
-        text-underline-offset: 16px;
-        text-decoration-thickness: 4px;
-        text-decoration-color: #1C9BEF;
-        color: white;
-    }
+const EditBtn = styled.div`
     cursor: pointer;
-    font-size: 15px;
-    font-weight: 300;
-    width: 100%;
-    max-width: 300px;
-    color: gray;
-    border-color: transparent;
-    background-color: rgba(0, 0, 0, 0.85);
+    position: absolute;
+    text-align: center;
+    top: 265px;
+    right: 15px;
+    width: 110px;
+    height: 35px;
+    padding-top: 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    border: 1px solid gray;
     &:hover{
-        background-color: rgba(34, 34, 34, 0.8);
+        transition-duration: 0.3s;
+        background-color: #232323;
     }
 `;
 
-const FancyBox = styled.div`
+const Editbox = styled.div`
+    position: fixed;
     display: flex;
     flex-direction: column;
-    height: 220px;
+    text-align: center;
+    top: 30%;
     width: 100%;
     max-width: 600px;
+    height: auto;
+    min-height: 200px;
+    border: 1px solid white;
+    background-color: black;
     padding: 20px;
-    gap: 30px;
-    border-bottom: 0.5px solid gray;
+    gap: 20px;
+    z-index: 20;
+    border-radius: 10px;
+    box-shadow: white 0px 0px 5px 0px, white 0px 0px 1px 0px;
+    @media (max-width: 660px) {
+        width: 80%;
+    }
 `;
 
-const FancyRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-`;
-
-const FancyItemBox = styled.div`
+const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
+    margin-left: 60px;
+    margin-right: 30px;// 왼쪽 오른쪽 공백
 `;
 
-const FancyItems = styled.img`
+const TextArea = styled.textarea`
+    border: none;
+    border-bottom: 0.5px solid gray;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: white;
+    background-color: transparent;
     width: 100%;
-    border-radius: 15px;
-    content: url(https://ton.twimg.com/onboarding/persistent_nux/follow_2x.png);
+    height: 60px;
+    resize: none;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    &::placeholder {
+    font-size: 20px;
+    }
+    &:focus {
+    outline: none;
+    }
 `;
 
-const FancyItems1 = styled.img`
-    width: 100%;
-    border-radius: 15px;
-    content: url(https://ton.twimg.com/onboarding/persistent_nux/topics_2x.png);
-`;
-
-const FancyItems2 = styled.img`
-    width: 100%;
-    border-radius: 15px;
-    content: url(https://ton.twimg.com/onboarding/persistent_nux/profile_2x.png);
+const SubmitBtn = styled.input`
+    margin-left: auto;
+    background-color: #1d9bf0;
+    width: 100px;
+    height: 40px;
+    color: white;
+    border: none;
+    padding: 10px 0px;
+    border-radius: 50px;
+    font-size: 16px;
+    float: right;
+    cursor: pointer;
+    &:hover,
+    &:active {
+    background-color: #1887d1;
+    }
 `;
 
 export default function Profile(){
@@ -192,6 +209,12 @@ export default function Profile(){
     //const [avatarName, setavatarName] = useState(user?.displayName);
     const [bgImg, setbgImg] = useState("");
     const storage = getStorage();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editname, seteditname] = useState(user?.displayName);
+
+    const modalref = useOutsideClick(() => {
+        setIsModalOpen(false);
+    });// modal outside click ref.
 
     useEffect(() => {
         getDownloadURL(ref(storage, "bgimg/" + user?.uid))
@@ -225,9 +248,9 @@ export default function Profile(){
             
             const q = query(collection(db, "tweets"), where("userId", "==", user?.uid));
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((d) => {
+            querySnapshot.forEach(async (d) => {
             //console.log(d.id, " => ", d.data());
-            updateDoc(doc(db, "tweets", d.id), {
+            await updateDoc(doc(db, "tweets", d.id), {
                 avatarUrl: avatarUrl,
                 //username: "악동꿀벌", // name change test
             });
@@ -276,9 +299,37 @@ export default function Profile(){
         });
         setTweets(tweets);
     };
+
     useEffect(() => {
         fetchTweets();
     }, []);// fetching tweets for profile timeline.
+
+    const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        seteditname(e.target.value);
+    };
+
+    const onSubmitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!user) return;
+        const editok = confirm("Are you sure you want to edit your name?");
+        if(editname === user.displayName){
+            alert("No edit found");
+        }
+        if (editok && editname !== user.displayName) {
+            await updateProfile(user, {
+                displayName: editname, // name change test
+            });
+            const q = query(collection(db, "tweets"), where("userId", "==", user?.uid));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach(async (d) => {
+            //console.log(d.id, " => ", d.data());
+            await updateDoc(doc(db, "tweets", d.id), {
+                username: editname, // name change test
+            });
+            });// get docs and set avatarurl again.
+        }
+        setIsModalOpen(false);
+    };// submit to edit name using updateprofile, updatedoc.
 
     return (
         <Wrapper>
@@ -314,31 +365,31 @@ export default function Profile(){
                 type="file"
                 accept="image/*"
             />
+            <EditBtn onClick={() => setIsModalOpen(true)}>Edit profile</EditBtn>
             <MyProfileBox>
                 <Name>{user?.displayName ?? "Anonymous"}</Name>
                 <Email>{user?.email ?? "Email not registered"}</Email>
                 {/*bio ? <h3>{bio}</h3> : null*/}
                 <Email>Joined {user?.metadata.creationTime?.slice(8, 16) ?? "Undefined"}.</Email>
             </MyProfileBox>
-            <Header1>
-                <HeaderBtn1 className={"active"}>Posts</HeaderBtn1>
-                <HeaderBtn1 >Replies</HeaderBtn1>
-                <HeaderBtn1 >Highlights</HeaderBtn1>
-                <HeaderBtn1 >Articles</HeaderBtn1>
-                <HeaderBtn1 >Media</HeaderBtn1>
-                <HeaderBtn1 >Likes</HeaderBtn1>
-            </Header1>
-            <FancyBox>
-                <Name>Let's get you set up</Name>
-                <FancyRow>
-                <FancyItemBox><FancyItems /><p>This means nothing</p></FancyItemBox>
-                <FancyItemBox><FancyItems1 /><p>Just few colorful boxs</p></FancyItemBox>
-                <FancyItemBox><FancyItems2 /><p>In original X app.</p></FancyItemBox>
-                </FancyRow>
-            </FancyBox>
+            <FacnyProfile />
             {tweets.map((tweet) => (
             <Tweet key={tweet.id} {...tweet} />
             ))}
+            {isModalOpen === true ? 
+            <Editbox ref={modalref}>
+                <p>Touch photos if you want to edit them.</p>
+                <Form onSubmit={onSubmitEdit}>
+                    <TextArea
+                        rows={3}
+                        maxLength={30}
+                        onChange={onChange}
+                        placeholder="Write your new profile name."
+                        required
+                    />
+                    <SubmitBtn type="submit" value={"Edit"} />
+                </Form>
+            </Editbox> : null}
         </Wrapper>
     );
 }
