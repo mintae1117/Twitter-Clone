@@ -149,9 +149,8 @@ const FancyBox = styled.div`
     height: 220px;
     width: 100%;
     max-width: 600px;
-    padding: 15px;
+    padding: 20px;
     gap: 30px;
-    overflow-x: scroll;
     border-bottom: 0.5px solid gray;
 `;
 
