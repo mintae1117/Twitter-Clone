@@ -23,7 +23,7 @@ const gotoGithub = () => {
 export default function Footer(){
     return(
         <Myfooter>Footer 만들기 너무 너무 귀찮습니다.
-        <span onClick={gotoYoutube} style={{color:"tomato", cursor: "pointer"}}>유튜브</span>나 보러 갑시다.
+        <span onClick={gotoYoutube} style={{color:"tomato", cursor: "pointer"}}> 유튜브</span>나 보러 갑시다.
         This site has nothing to do with twitter, it's just a clone codding site.
         @copyright <span onClick={gotoGithub} style={{color:"white", cursor: "pointer"}}>mintaekim</span> all rights reserved.</Myfooter>
     );
