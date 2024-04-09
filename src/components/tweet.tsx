@@ -362,7 +362,7 @@ export default function Tweet({ username, photo, tweet, createdDate, userId, ava
     <>
         <Wrapper>
             <Column>
-                {user?.uid === userId ? 
+                {user?.uid === userId || user?.uid === "y4mX3THtBzWEpXsyFEZdWhvlqko1" ? 
                 <MoreBox>
                     <MoreBtn>
                     <svg onClick={() => setIsModalOpen(true)} fill="none" strokeWidth={1.5} stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
