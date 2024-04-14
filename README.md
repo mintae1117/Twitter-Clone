@@ -14,8 +14,8 @@ Twitter clone coding challenge in nomadcoder.<br>
 
 ## 💻 사용 기술.
 
-- `React.js`, `Typescript`, `Javascript`, `node.js`
-- `emoji-picker-react`, `React-Router-Dom`, `Styled-components`
+- `React.js`, `Typescript`, `Javascript`
+- `emoji-picker-react`, `React-Router-Dom`, `Styled-components`, `Use-OutsideClick`
 - `Firebase(auth, firestorDB, Storage, hosting)`, `Vite`
 - Deploy : `Firebase-hosting`
 
