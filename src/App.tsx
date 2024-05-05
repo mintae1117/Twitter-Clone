@@ -91,6 +91,12 @@ const GlobalStyles = createGlobalStyle`
     color:white;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
+  body::-webkit-scrollbar {
+    display: none;
+  }// ms scrollbar hidden.
+  body {
+    -ms-overflow-style: none;
+  }// ms scrollbar hidden.
 `;// styled reset 을 이용한 globalstyle reset -> 개편함, 글로벌스타일 추가가능
 
 function App() {
