@@ -1,6 +1,6 @@
 # 𝕏 Twitter clone coding <br> Link : [사이트 바로가기](https://twitter-clone-73087.firebaseapp.com/)
 
-### Twitter clone coding challenge in nomadcoder.
+### Twitter Clone Coding challenge in Nomadcoders.
 ### 2주간 진행한 트위터 완전코딩 챌린지 결과물 입니다.
 ### 최대한 원본 사이트와 비슷한 UI로 제작하였고 반응형 Css도 신경써서 만들었습니다.
 
