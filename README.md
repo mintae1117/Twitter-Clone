@@ -17,7 +17,7 @@
 
 - `React.js`, `Typescript`, `Javascript`
 - `emoji-picker-react`, `React-Router-Dom`, `Styled-components`, `Use-OutsideClick`
-- `Firebase(auth, firestorDB, Storage, hosting)`, `Vite`
+- `Firebase(Auth, FirestorDB, Storage, Hosting)`, `Vite`
 - Deploy : `Firebase-hosting`
 
 <br>
