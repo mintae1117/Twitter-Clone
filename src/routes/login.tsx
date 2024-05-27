@@ -48,20 +48,20 @@ export default function CreateAccount() {
     };// 아이디(이메일), 비번 입력받기
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
-    if (isLoading || email === "" || password === "") return;
-    try {
-        setLoading(true);
-        await signInWithEmailAndPassword(auth, email, password);
-        navigate("/");
-    } catch (e) {
-        if (e instanceof FirebaseError) {
-        setError(e.message);
+        e.preventDefault();
+        setError("");
+        if (isLoading || email === "" || password === "") return;
+        try {
+            setLoading(true);
+            await signInWithEmailAndPassword(auth, email, password);
+            navigate("/");
+        } catch (e) {
+            if (e instanceof FirebaseError) {
+            setError(e.message);
+            }
+        } finally {
+            setLoading(false);
         }
-    } finally {
-        setLoading(false);
-    }
     };// firebase signInWithEmailAndPassword 이용하여 사용자 로그인 시키기, loading setting 해주기.
 
     const onClick = async () => {
