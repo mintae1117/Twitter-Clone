@@ -37,14 +37,14 @@ export default function CreateAccount() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-        target: { name, value },
-    } = e;
-    if (name === "email") {
-        setEmail(value);
-    } else if (name === "password") {
-        setPassword(value);
-    }
+        const {
+            target: { name, value },
+        } = e;
+        if (name === "email") {
+            setEmail(value);
+        } else if (name === "password") {
+            setPassword(value);
+        }
     };// 아이디(이메일), 비번 입력받기
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
