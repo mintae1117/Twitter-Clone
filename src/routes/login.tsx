@@ -76,7 +76,6 @@ export default function CreateAccount() {
         console.log(errorCode);
         console.log(errorMessage);
         alert(errorMessage);
-        // ..
     });
     };// 비밀번호 틀리거나 이미 생성된 이메일의 계정에서 표시, 클릭하면 password reset email 보내기.
 
