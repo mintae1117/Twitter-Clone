@@ -3,6 +3,7 @@
 ### Twitter Clone Coding challenge in Nomadcoders.
 ### 2주간 진행한 트위터 완전코딩 챌린지 결과물 입니다.
 ### 최대한 원본 사이트와 비슷한 UI로 제작하였고 반응형 Css도 신경써서 만들었습니다.
+### Firebase 를 이용하여 여러가지 database 와 프론트간 통신 등 전체적인 웹앱에 대한 시야가 넓어지는 프로젝트 였습니다.
 
 <br>
 
